@@ -1,21 +1,43 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Lock, User, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Lock, User, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase/config';
 
 const AdminLogin = () => {
     const navigate = useNavigate();
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (id === import.meta.env.VITE_ADMIN_ID && password === import.meta.env.VITE_ADMIN_PW) {
-            sessionStorage.setItem('isAdmin', 'true');
+        setError('');
+        setIsLoading(true);
+
+        // 아이디가 이메일 형식이 아니면 기본 도메인 추가
+        const email = id.includes('@') ? id : `${id}@ilead.com`;
+
+        try {
+            // Firebase Auth 로그인 시도
+            await signInWithEmailAndPassword(auth, email, password);
             navigate('/admin/dashboard');
-        } else {
+        } catch (err: any) {
+            // Firebase에 계정이 아직 없는 초기 상태 대비 (환경변수 값으로 최초 1회 생성)
+            if (id === import.meta.env.VITE_ADMIN_ID && password === import.meta.env.VITE_ADMIN_PW) {
+                try {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                    navigate('/admin/dashboard');
+                    return;
+                } catch (createErr) {
+                    console.error('계정 자동 생성 실패', createErr);
+                }
+            }
             setError('아이디 또는 비밀번호가 올바르지 않습니다.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -50,7 +72,7 @@ const AdminLogin = () => {
                         <User className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                         <input
                             type="text"
-                            placeholder="관리자 아이디"
+                            placeholder="관리자 아이디 (기본: admin)"
                             value={id}
                             onChange={(e) => setId(e.target.value)}
                             className="w-full h-16 pl-14 pr-6 rounded-2xl bg-white border border-gray-100 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all font-medium text-gray-900"
@@ -79,17 +101,18 @@ const AdminLogin = () => {
 
                     <button
                         type="submit"
-                        className="w-full h-16 bg-blue-600 text-white rounded-2xl font-bold text-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-blue-600/20 active:scale-[0.98] mt-4"
+                        disabled={isLoading}
+                        className="w-full h-16 bg-blue-600 text-white rounded-2xl font-bold text-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-blue-600/20 active:scale-[0.98] mt-4 disabled:opacity-50"
                     >
-                        로그인
-                        <ArrowRight size={20} />
+                        {isLoading ? <Loader2 className="animate-spin" size={20} /> : '로그인'}
+                        {!isLoading && <ArrowRight size={20} />}
                     </button>
                 </form>
 
                 {/* Footer */}
                 <div className="text-center">
                     <p className="text-gray-400 text-xs font-medium">
-                        권한이 있는 관리자만 접근할 수 있습니다.
+                        최초 로그인 시 제공된 기본 비밀번호로 연동이 설정됩니다.
                     </p>
                 </div>
             </motion.div>

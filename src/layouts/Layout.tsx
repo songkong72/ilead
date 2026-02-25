@@ -10,7 +10,7 @@ import InquiryButton from '../components/common/InquiryButton';
 const Layout = () => {
     return (
         <AuthProvider>
-            <div className="flex flex-col min-h-screen bg-black text-white selection:bg-white/20">
+            <div className="flex flex-col min-h-screen bg-white text-gray-900 selection:bg-blue-500/20">
                 <Navbar />
                 <main className="flex-1 relative">
                     <Outlet />

@@ -11,18 +11,25 @@ import {
     ChevronRight,
     Search
 } from 'lucide-react';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../firebase/config';
 
 const AdminLayout = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+    const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
     useEffect(() => {
-        const isAdmin = sessionStorage.getItem('isAdmin');
-        if (!isAdmin) {
-            navigate('/admin/login');
-        }
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigate('/admin/login');
+            } else {
+                setIsCheckingAuth(false);
+            }
+        });
+        return () => unsubscribe();
     }, [navigate]);
 
     // 페이지 이동 시 모바일 사이드바 닫기
@@ -30,9 +37,13 @@ const AdminLayout = () => {
         setIsMobileSidebarOpen(false);
     }, [location.pathname]);
 
-    const handleLogout = () => {
-        sessionStorage.removeItem('isAdmin');
-        navigate('/admin/login');
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            navigate('/admin/login');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
     };
 
     const menuItems = [
@@ -79,6 +90,10 @@ const AdminLayout = () => {
             </div>
         </>
     );
+
+    if (isCheckingAuth) {
+        return <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-white/50 text-sm font-bold">인증 정보 확인 중...</div>;
+    }
 
     return (
         <div className="min-h-screen bg-[#0a0a0a] text-white flex overflow-hidden">

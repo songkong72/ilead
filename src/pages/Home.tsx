@@ -179,22 +179,22 @@ const Home = () => {
             </section>
 
             {/* Immersive Program Cards Section (Refined Typography & Icons) */}
-            <section className="w-full py-40 bg-[#0a0a0a]">
+            <section className="w-full py-40 bg-[#050505]">
                 <div className="container mx-auto px-6 max-w-[1600px]">
                     <div className="mb-24 flex flex-col items-center md:items-start text-center md:text-left">
                         <motion.span
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
-                            className="text-white/40 font-bold tracking-[0.5em] uppercase text-sm mb-6 block"
+                            className="text-gray-500 font-bold tracking-[0.2em] md:tracking-[0.5em] uppercase text-sm mb-4 block"
                         >
                             전문적인 프로그램 라인업
                         </motion.span>
-                        <h2 className="text-6xl md:text-7xl font-bold text-white tracking-tight mb-12">
+                        <h2 className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-8 drop-shadow-sm">
                             L.E.A.D 주요 사업
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-[1400px] mx-auto min-h-[1400px]">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 max-w-[1400px] mx-auto min-h-[1400px]">
                         {leadData.map((item) => (
                             <motion.div
                                 key={item.id}
@@ -204,55 +204,71 @@ const Home = () => {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.8, delay: item.delay }}
                                 onClick={() => setSelectedId(item.id)}
-                                className="group relative flex flex-col bg-gray-900 rounded-[3rem] overflow-hidden cursor-pointer h-[650px] border border-white/5 transition-all duration-700 hover:border-white/20 shadow-2xl hover:shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
+                                className="group relative flex flex-col bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] md:rounded-[3rem] overflow-hidden cursor-pointer h-[600px] md:h-[650px] transition-all duration-700 hover:-translate-y-2"
                                 style={{ transformOrigin: 'center' }}
                             >
-                                {/* Background Image */}
-                                <div className="absolute inset-0 z-0">
-                                    <motion.img
-                                        layoutId={`img-${item.id}`}
-                                        src={item.coverImgUrl}
-                                        alt={item.title}
-                                        className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110 saturate-[1.2] brightness-[0.7] group-hover:brightness-50"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                                {/* Background Image & Gradient Masks */}
+                                <div className="absolute inset-0 z-0 bg-[#050505]">
+                                    <div className="absolute top-0 left-0 right-0 h-full overflow-hidden">
+                                        <motion.img
+                                            layoutId={`img-${item.id}`}
+                                            src={item.coverImgUrl}
+                                            alt={item.title}
+                                            className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 opacity-60 mix-blend-luminosity"
+                                        />
+                                        {/* Seamless fade to dark bottom */}
+                                        <div className="absolute inset-x-0 bottom-0 h-[80%] bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent pointer-events-none" />
+                                        <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-[#050505] to-transparent pointer-events-none" />
+                                        {/* Extremely subtle top light gradient */}
+                                        <div className="absolute inset-x-0 top-0 h-[35%] bg-gradient-to-b from-[#050505]/80 to-transparent pointer-events-none" />
+                                    </div>
                                 </div>
 
                                 {/* Card Content */}
-                                <div className="relative z-10 p-12 flex flex-col h-full justify-between">
+                                <div className="relative z-10 p-10 md:p-14 flex flex-col h-full justify-between">
+                                    {/* Top Area: Icon, P.0X, Title */}
                                     <div className="flex flex-col gap-6">
-                                        <div className="flex justify-between items-center">
+                                        <div className="flex justify-between items-start">
+                                            {/* Frosted glass icon box matching reference */}
                                             <motion.div
                                                 layoutId={`icon-${item.id}`}
-                                                className="p-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 text-white"
+                                                className="w-16 h-16 bg-white/10 backdrop-blur-[2px] rounded-2xl flex items-center justify-center text-white shadow-sm border border-white/20 transition-transform duration-500 group-hover:scale-110"
                                             >
-                                                <item.icon size={28} strokeWidth={1.5} />
+                                                <item.icon size={30} strokeWidth={1.5} />
                                             </motion.div>
-                                            <span className="text-white/30 font-bold tracking-widest text-xs whitespace-nowrap">P.0{leadData.indexOf(item) + 1}</span>
+                                            <span className="text-white/40 font-bold tracking-[0.2em] text-xs pt-2">P.0{leadData.indexOf(item) + 1}</span>
                                         </div>
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col mt-4">
                                             <motion.h3
                                                 layoutId={`title-${item.id}`}
-                                                className="text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-2"
+                                                className="text-[2.2rem] md:text-[3rem] font-black tracking-tight leading-tight mb-5 drop-shadow-sm flex items-center flex-wrap gap-y-2 text-white"
                                             >
-                                                {item.title}
+                                                {item.title.split(/(\/|&)/).map((part, i) => {
+                                                    const trimmed = part.trim();
+                                                    if (trimmed === '/' || trimmed === '&') {
+                                                        return <span key={i} className="text-white/40 font-light mx-2">{trimmed}</span>;
+                                                    }
+                                                    return <span key={i} className="text-white">{trimmed}</span>;
+                                                })}
                                             </motion.h3>
                                             <motion.div
                                                 layoutId={`theme-${item.id}`}
-                                                className="w-12 h-1 rounded-full transition-all duration-500 group-hover:w-24"
+                                                className="w-24 h-1.5 rounded-full transition-all duration-500 group-hover:w-32 mt-[-10px]"
                                                 style={{ backgroundColor: item.theme }}
                                             />
                                         </div>
                                     </div>
 
-                                    {/* Reveal Animation on Hover */}
-                                    <div className="transform translate-y-8 group-hover:translate-y-0 transition-all duration-700 opacity-60 group-hover:opacity-100">
-                                        <p className="text-white/70 font-medium text-lg leading-relaxed mb-10 max-w-[320px]">
+                                    {/* Bottom Area: Description & Action Link */}
+                                    <div className="flex flex-col gap-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+                                        <p className="text-gray-300 font-medium text-base md:text-lg leading-relaxed max-w-[340px] group-hover:text-white transition-colors duration-500">
                                             {item.description}
                                         </p>
-                                        <div className="flex items-center gap-3 text-white text-sm font-bold tracking-[0.2em] uppercase">
+                                        <div
+                                            className="flex items-center gap-3 text-sm font-bold tracking-[0.1em] uppercase transition-all duration-500 text-white"
+                                        >
                                             <span>더 많은 정보 보기</span>
-                                            <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
+                                            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
                                         </div>
                                     </div>
                                 </div>

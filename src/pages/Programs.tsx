@@ -44,8 +44,8 @@ const Programs = () => {
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Header */}
-            <section className="relative pt-32 pb-20 bg-[#0a0a0a] overflow-hidden">
-                <div className="absolute inset-0 opacity-20">
+            <section className="relative pt-32 pb-20 bg-[#FAF5F0] overflow-hidden">
+                <div className="absolute inset-0 opacity-10">
                     <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full blur-[150px]" />
                     <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500 rounded-full blur-[150px]" />
                 </div>
@@ -53,7 +53,7 @@ const Programs = () => {
                     <motion.span
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-white/40 font-bold tracking-[0.5em] uppercase text-sm mb-6 block"
+                        className="text-gray-500 font-bold tracking-[0.5em] uppercase text-sm mb-6 block"
                     >
                         Our Programs
                     </motion.span>
@@ -61,7 +61,7 @@ const Programs = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-6"
+                        className="text-5xl md:text-7xl font-bold text-gray-900 tracking-tight mb-6"
                     >
                         사업영역
                     </motion.h1>
@@ -69,7 +69,7 @@ const Programs = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="text-white/60 text-xl max-w-2xl leading-relaxed"
+                        className="text-gray-600 text-xl max-w-2xl leading-relaxed"
                     >
                         L.E.A.D는 레저, 체험, 액션, 디자인의 4가지 핵심 사업 영역을 통해
                         최상의 커리큘럼을 제공합니다.
