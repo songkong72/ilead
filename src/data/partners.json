@@ -22,7 +22,9 @@
             "자연 생태 체험",
             "명랑 운동회"
         ],
-        "images": [],
+        "images": [
+            "https://phoenixhnr.co.kr/images/ko/waterpark/waterpark-photo01.jpg"
+        ],
         "mapUrl": "",
         "sections": [
             {
@@ -37,32 +39,32 @@
                             {
                                 "name": "파도풀",
                                 "desc": "4Chamber 시스템에서 넘실대며 밀려오는 파도를 즐기는 곳",
-                                "image": "https://images.unsplash.com/photo-1572979201582-7dd356b461f6?auto=format&fit=crop&q=80&w=800"
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/inside1.jpg"
                             },
                             {
                                 "name": "바데풀",
                                 "desc": "야외 노천을 겸할 수 있도록 조성되어 있으며, 정통 유럽식 바데 기능을 체험할 수 있는 시설",
-                                "image": "https://images.unsplash.com/photo-1540540455822-1250cf4dc293?auto=format&fit=crop&q=80&w=800"
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/inside4.jpg"
                             },
                             {
                                 "name": "어린이풀",
                                 "desc": "직접 물을 쏘면서 즐길 수 있는 워터건과 나무 모형의 바샤웍스가 기다리는 곳",
-                                "image": "https://images.unsplash.com/photo-1582655299285-9831a298816c?auto=format&fit=crop&q=80&w=800"
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/inside3.jpg"
                             },
                             {
                                 "name": "유수풀",
                                 "desc": "폭 3M, 길이 125M의 흐르는 강물을 타고 떠내려가는 느낌",
-                                "image": "https://images.unsplash.com/photo-1629837581561-ebae28ceee01?auto=format&fit=crop&q=80&w=800"
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/inside5.jpg"
                             },
                             {
                                 "name": "개구리풀",
                                 "desc": "유아들의 안전을 고려한 전용 놀이공간",
-                                "image": "https://images.unsplash.com/photo-1533227260815-4fa8154564ab?auto=format&fit=crop&q=80&w=800"
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/inside2.jpg"
                             },
                             {
                                 "name": "바디슬라이드",
                                 "desc": "국내 최초 실내에서 출발하여 실외로 떨어지는 슬라이드, 유수풀로 연결!",
-                                "image": "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&q=80&w=800"
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/inside6.jpg"
                             }
                         ]
                     },
@@ -70,28 +72,34 @@
                         "category": "실외존(Outside Zone)",
                         "items": [
                             {
-                                "name": "스피드 슬라이드",
-                                "desc": "가족이 4인승 튜브에 몸을 맡기고 계곡을 따라 흐르는 듯한 스릴을 즐겨보세요"
+                                "name": "패밀리슬라이드",
+                                "desc": "가족이 4인승 튜브에 몸을 맡기고 계곡을 따라 흐르는 듯한 스릴을 즐겨보세요",
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/outside1.jpg"
                             },
                             {
                                 "name": "웨이브리버",
-                                "desc": "3곳에 설치된 하이드로 설비방식의 조파장치가 계곡의 급류를 끊임없이 만들어 냅니다"
+                                "desc": "3곳에 설치된 하이드로 설비방식의 조파장치가 계곡의 급류를 끊임없이 만들어 냅니다",
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/outside4.jpg"
                             },
                             {
                                 "name": "스피드 슬라이드",
-                                "desc": "건물 4층 높이에서 자유낙하하는 슬라이드, 계곡의 급류를 타는 듯한 다이내믹한 스릴"
+                                "desc": "건물 4층 높이에서 자유낙하하는 슬라이드, 계곡의 급류를 타는 듯한 다이내믹한 스릴",
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/outside3.jpg"
                             },
                             {
                                 "name": "타잔풀",
-                                "desc": "야자수모양의 기둥 2개에 연결되어 있는 그물을 잡고 징검다리를 밟으며 물 위를 이동하는 놀이시설"
+                                "desc": "야자수모양의 기둥 2개에 연결되어 있는 그물을 잡고 징검다리를 밟으며 물 위를 이동하는 놀이시설",
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/outside7.jpg"
                             },
                             {
                                 "name": "반신욕탕",
-                                "desc": "물놀이로 인한 체온저하 및 심신의 피로를 풀 수 있는 곳으로 남녀노소 누구나 이용가능"
+                                "desc": "물놀이로 인한 체온저하 및 심신의 피로를 풀 수 있는 곳으로 남녀노소 누구나 이용가능",
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/outside9.jpg"
                             },
                             {
                                 "name": "로데오 마운틴",
-                                "desc": "암벽 사이로 급류를 타고 미끄러져 내려가는 스릴, 소프트한 재질로 제작"
+                                "desc": "암벽 사이로 급류를 타고 미끄러져 내려가는 스릴, 소프트한 재질로 제작",
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/zone/outside8.jpg"
                             }
                         ]
                     }
@@ -216,7 +224,7 @@
                 "content": "천년의 역사가 숨쉬는 곳.\n옛 신라의 전설을 그대로 재현한 온천 테마파크, 신나는 물의 천국, 경주 스프링돔이 있어 더욱 재미있습니다.\n주 소 : 경북 경주시 북군동 30-3",
                 "features": [
                     {
-                        "category": "부대시설",
+                        "category": "부대시설",이부분은 구 사이트에 없는 사진인것 같아요. 
                         "items": [
                             {
                                 "name": "스프링돔",
