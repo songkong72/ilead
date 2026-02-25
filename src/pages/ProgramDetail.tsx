@@ -25,14 +25,16 @@ const ProgramDetail = () => {
     return (
         <div className="min-h-screen bg-[#fafafa] pt-32 pb-40">
             <div className="container mx-auto px-6 max-w-6xl">
-                {/* Navigation */}
-                <button
-                    onClick={() => navigate("/")}
-                    className="flex items-center gap-2 text-gray-400 hover:text-gray-900 transition-colors mb-16 font-bold tracking-tight text-base group"
-                >
-                    <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" />
-                    리스트로 돌아가기
-                </button>
+                {/* Floating Navigation */}
+                <div className="sticky top-[100px] z-50 pointer-events-none mb-10">
+                    <button
+                        onClick={() => navigate("/")}
+                        className="pointer-events-auto flex items-center gap-3 text-gray-500 hover:text-gray-900 transition-all p-3 md:px-6 md:py-3 rounded-full bg-white/90 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/50 group font-bold tracking-tight text-base active:scale-95"
+                    >
+                        <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" />
+                        <span className="hidden md:block">리스트로 돌아가기</span>
+                    </button>
+                </div>
 
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -56,7 +58,7 @@ const ProgramDetail = () => {
                     </div>
 
                     {/* Hero Image Section */}
-                    <div className="aspect-[21/9] w-full bg-gray-200 rounded-[3rem] overflow-hidden mb-24 shadow-3xl relative border border-black/5">
+                    <div className="aspect-[21/9] w-full bg-gray-200 rounded-[3rem] overflow-hidden mb-12 shadow-3xl relative border border-black/5">
                         <img
                             src={content.bgImage}
                             alt={content.title}
@@ -67,6 +69,23 @@ const ProgramDetail = () => {
                             <p className="text-white/80 font-bold tracking-widest text-sm uppercase mb-2">Representative Image</p>
                             <h3 className="text-white text-3xl font-bold">{content.title}</h3>
                         </div>
+                    </div>
+
+                    {/* Quick Summary Section */}
+                    <div className="flex flex-wrap gap-4 mb-24 justify-center">
+                        {content.summary.map((item, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: i * 0.1 }}
+                                className="px-8 py-4 bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center gap-3 group hover:shadow-md transition-all cursor-default"
+                            >
+                                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: content.themeColor }} />
+                                <span className="text-xl font-bold text-gray-800 tracking-tight">{item}</span>
+                                <ChevronRight className="text-gray-300 group-hover:translate-x-1 transition-transform" size={18} />
+                            </motion.div>
+                        ))}
                     </div>
 
                     {/* Goals Summary Grid */}
@@ -103,24 +122,78 @@ const ProgramDetail = () => {
                         </div>
                     </div>
 
-                    {/* Program Categories & Items */}
+                    {/* Program Categories & Activities (Refactored to Cards) */}
                     <div className="mb-32">
                         <div className="flex items-center gap-6 mb-16">
-                            <h3 className="text-3xl font-bold text-gray-900 whitespace-nowrap">주요 프로그램 구성</h3>
+                            <h3 className="text-3xl font-bold text-gray-900 whitespace-nowrap">프로그램 상세 안내</h3>
                             <div className="w-full h-[1px] bg-gray-200" />
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+                        <div className="flex flex-col gap-24">
                             {content.programCategories.map((cat, idx) => (
-                                <div key={idx} className="flex flex-col gap-8">
-                                    <h4 className="text-xl font-black tracking-widest text-gray-400 uppercase">{cat.category}</h4>
-                                    <ul className="flex flex-col gap-4">
-                                        {cat.items.map((item, i) => (
-                                            <li key={i} className="flex items-center gap-4 group">
-                                                <div className="w-2 h-2 rounded-full transition-all duration-300 group-hover:scale-150 group-hover:w-4" style={{ backgroundColor: content.themeColor }} />
-                                                <span className="text-xl font-bold text-gray-700">{item}</span>
-                                            </li>
+                                <div key={idx} className="flex flex-col gap-10">
+                                    <h4 className="text-2xl font-black tracking-widest text-gray-400 uppercase border-l-4 pl-6" style={{ borderColor: content.themeColor }}>
+                                        {cat.category}
+                                    </h4>
+                                    <div className="flex flex-col gap-16">
+                                        {cat.activities.map((activity, i) => (
+                                            <motion.div
+                                                key={i}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                className="bg-white rounded-[3rem] p-10 md:p-16 shadow-[0_10px_60px_rgba(0,0,0,0.02)] border border-gray-50 flex flex-col gap-12"
+                                            >
+                                                {/* Header & Description */}
+                                                <div className="flex flex-col md:flex-row gap-10 items-start">
+                                                    <div className="flex flex-col gap-4 min-w-[280px]">
+                                                        <div className="inline-flex px-4 py-1.5 rounded-full text-xs font-black tracking-widest text-white self-start" style={{ backgroundColor: content.themeColor }}>
+                                                            {cat.category.split('(')[0].trim()}
+                                                        </div>
+                                                        <h5 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+                                                            {activity.name}
+                                                        </h5>
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <p className="text-xl text-gray-500 font-medium leading-relaxed">
+                                                            {activity.description}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                {/* Gallery Grid */}
+                                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                                    {activity.galleryImages ? (
+                                                        activity.galleryImages.map((_, imgIdx) => (
+                                                            <div key={imgIdx} className="aspect-square bg-gray-50 rounded-2xl overflow-hidden relative group border border-gray-100/50">
+                                                                <div className="absolute inset-0 bg-gradient-to-br opacity-[0.03]" style={{ backgroundImage: `linear-gradient(to bottom right, ${content.themeColor}, #000)` }} />
+                                                                <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center">
+                                                                    <div className="w-10 h-10 rounded-xl mb-3 flex items-center justify-center text-white/10" style={{ backgroundColor: `${content.themeColor}11` }}>
+                                                                        <Clock size={20} />
+                                                                    </div>
+                                                                    <span className="text-[10px] text-gray-300 font-black uppercase tracking-tighter">Photo {imgIdx + 1}</span>
+                                                                </div>
+                                                                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                                    <span className="text-white text-xs font-bold bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">준비 중</span>
+                                                                </div>
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <div className="col-span-full aspect-[21/9] bg-gray-50 rounded-3xl overflow-hidden relative border border-gray-100/50">
+                                                            <div className="absolute inset-0 bg-gradient-to-br opacity-[0.03]" style={{ backgroundImage: `linear-gradient(to bottom right, ${content.themeColor}, #000)` }} />
+                                                            <div className="w-full h-full flex flex-col items-center justify-center p-12 text-center">
+                                                                <div className="w-16 h-16 rounded-2xl mb-4 flex items-center justify-center text-white/10" style={{ backgroundColor: `${content.themeColor}11` }}>
+                                                                    <Clock size={32} />
+                                                                </div>
+                                                                <span className="text-gray-300 font-bold tracking-tighter uppercase mb-2">現場 갤러리 준비 중</span>
+                                                                <p className="text-gray-400 text-sm font-medium">활동 생생함을 담은 이미지가 곧 업데이트됩니다.</p>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </motion.div>
                                         ))}
-                                    </ul>
+                                    </div>
                                 </div>
                             ))}
                         </div>

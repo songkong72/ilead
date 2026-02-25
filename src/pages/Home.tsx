@@ -7,11 +7,14 @@ import {
     Leaf,
     Compass,
     ChevronRight,
-    ArrowRight
+    ArrowRight,
+    X
 } from 'lucide-react';
+import { programs } from '../data/programs';
 
 const Home = () => {
     const navigate = useNavigate();
+    const [selectedId, setSelectedId] = useState<string | null>(null);
 
     // Thematic Colors & Assets
     const heroSlides = [
@@ -44,8 +47,8 @@ const Home = () => {
         },
         {
             img: "/assets/images/programs/design.jpg",
-            title: "미래를 여는, 리더십연수",
-            subtitle: "한계를 극복하며 협력의 미래를 설계하는 고도화 연수",
+            title: "미래를 여는, 인성개발",
+            subtitle: "한계를 극복하며 협력의 미래를 설계하는 맞춤형 연수",
             id: 'design',
             color: '#8B5CF6',
             glow: 'rgba(139, 92, 246, 0.4)',
@@ -92,7 +95,7 @@ const Home = () => {
         },
         {
             id: 'design',
-            title: "리더십/팀빌딩",
+            title: "기획연수/인성개발",
             icon: Compass,
             theme: "#8B5CF6",
             description: "로프 챌린지, ATV 어드벤처 등 조직 한계 극복 및 협력 강화 연수",
@@ -100,6 +103,9 @@ const Home = () => {
             delay: 0.4
         }
     ];
+
+    const selectedProgram = leadData.find(item => item.id === selectedId);
+    const detailedProgramContent = selectedId ? programs[selectedId] : null;
 
     return (
         <div className="w-full min-h-screen bg-white flex flex-col">
@@ -188,20 +194,23 @@ const Home = () => {
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 min-h-[700px]">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-[1400px] mx-auto min-h-[1400px]">
                         {leadData.map((item) => (
                             <motion.div
                                 key={item.id}
+                                layoutId={item.id}
                                 initial={{ opacity: 0, y: 40 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.8, delay: item.delay }}
-                                onClick={() => navigate(`/programs/${item.id}`)}
-                                className="group relative flex flex-col bg-gray-900 rounded-[3rem] overflow-hidden cursor-pointer h-[750px] border border-white/5 transition-all duration-700 hover:border-white/20 shadow-2xl hover:shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
+                                onClick={() => setSelectedId(item.id)}
+                                className="group relative flex flex-col bg-gray-900 rounded-[3rem] overflow-hidden cursor-pointer h-[650px] border border-white/5 transition-all duration-700 hover:border-white/20 shadow-2xl hover:shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
+                                style={{ transformOrigin: 'center' }}
                             >
                                 {/* Background Image */}
                                 <div className="absolute inset-0 z-0">
-                                    <img
+                                    <motion.img
+                                        layoutId={`img-${item.id}`}
                                         src={item.coverImgUrl}
                                         alt={item.title}
                                         className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110 saturate-[1.2] brightness-[0.7] group-hover:brightness-50"
@@ -213,26 +222,36 @@ const Home = () => {
                                 <div className="relative z-10 p-12 flex flex-col h-full justify-between">
                                     <div className="flex flex-col gap-6">
                                         <div className="flex justify-between items-center">
-                                            <div className="p-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 text-white">
+                                            <motion.div
+                                                layoutId={`icon-${item.id}`}
+                                                className="p-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 text-white"
+                                            >
                                                 <item.icon size={28} strokeWidth={1.5} />
-                                            </div>
-                                            <span className="text-white/30 font-bold tracking-widest text-xs">P.0{leadData.indexOf(item) + 1}</span>
+                                            </motion.div>
+                                            <span className="text-white/30 font-bold tracking-widest text-xs whitespace-nowrap">P.0{leadData.indexOf(item) + 1}</span>
                                         </div>
                                         <div className="flex flex-col">
-                                            <h3 className="text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight mb-2">
+                                            <motion.h3
+                                                layoutId={`title-${item.id}`}
+                                                className="text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-2"
+                                            >
                                                 {item.title}
-                                            </h3>
-                                            <div className="w-12 h-1 rounded-full transition-all duration-500 group-hover:w-24" style={{ backgroundColor: item.theme }} />
+                                            </motion.h3>
+                                            <motion.div
+                                                layoutId={`theme-${item.id}`}
+                                                className="w-12 h-1 rounded-full transition-all duration-500 group-hover:w-24"
+                                                style={{ backgroundColor: item.theme }}
+                                            />
                                         </div>
                                     </div>
 
                                     {/* Reveal Animation on Hover */}
                                     <div className="transform translate-y-8 group-hover:translate-y-0 transition-all duration-700 opacity-60 group-hover:opacity-100">
-                                        <p className="text-white/70 font-medium text-lg leading-relaxed mb-10 max-w-[280px]">
+                                        <p className="text-white/70 font-medium text-lg leading-relaxed mb-10 max-w-[320px]">
                                             {item.description}
                                         </p>
                                         <div className="flex items-center gap-3 text-white text-sm font-bold tracking-[0.2em] uppercase">
-                                            <span>자세히 보기</span>
+                                            <span>더 많은 정보 보기</span>
                                             <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
                                         </div>
                                     </div>
@@ -242,6 +261,103 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Expanded Modal View */}
+            <AnimatePresence>
+                {selectedId && selectedProgram && detailedProgramContent && (
+                    <>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSelectedId(null)}
+                            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] cursor-zoom-out"
+                        />
+                        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 md:p-8 pointer-events-none">
+                            <motion.div
+                                layoutId={selectedId}
+                                className="w-full max-w-5xl max-h-[90vh] bg-white rounded-[3rem] overflow-hidden flex flex-col md:flex-row pointer-events-auto"
+                            >
+                                <div className="relative w-full md:w-2/5 h-64 md:h-full">
+                                    <motion.img
+                                        layoutId={`img-${selectedId}`}
+                                        src={selectedProgram.coverImgUrl}
+                                        alt={selectedProgram.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r md:from-black/40 md:to-transparent" />
+                                    <div className="absolute top-8 left-8">
+                                        <motion.div
+                                            layoutId={`icon-${selectedId}`}
+                                            className="p-4 bg-white/20 backdrop-blur-xl rounded-2xl border border-white/20 text-white inline-block mb-4"
+                                        >
+                                            <selectedProgram.icon size={32} strokeWidth={1.5} />
+                                        </motion.div>
+                                    </div>
+                                </div>
+
+                                <div className="relative w-full md:w-3/5 p-10 md:p-16 overflow-y-auto scrollbar-hide" style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
+                                    <style>{`
+                                        .scrollbar-hide::-webkit-scrollbar {
+                                            display: none;
+                                        }
+                                    `}</style>
+                                    <button
+                                        onClick={() => setSelectedId(null)}
+                                        className="absolute top-8 right-8 p-3 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-900"
+                                    >
+                                        <X size={28} />
+                                    </button>
+
+                                    <div className="mb-12">
+                                        <motion.h3
+                                            layoutId={`title-${selectedId}`}
+                                            className="text-4xl font-bold text-gray-900 mb-4 tracking-tight"
+                                        >
+                                            {selectedProgram.title}
+                                        </motion.h3>
+                                        <motion.div
+                                            layoutId={`theme-${selectedId}`}
+                                            className="w-16 h-1.5 rounded-full"
+                                            style={{ backgroundColor: selectedProgram.theme }}
+                                        />
+                                    </div>
+
+                                    <p className="text-xl text-gray-500 font-medium leading-relaxed mb-12">
+                                        {detailedProgramContent.intro}
+                                    </p>
+
+                                    <div className="space-y-10">
+                                        {detailedProgramContent.programCategories.map((cat, i) => (
+                                            <div key={i}>
+                                                <h4 className="text-sm font-black text-gray-400 uppercase tracking-[0.2em] mb-4">
+                                                    {cat.category}
+                                                </h4>
+                                                <div className="flex flex-wrap gap-3">
+                                                    {cat.activities.map((activity, j) => (
+                                                        <span key={j} className="px-5 py-2 bg-gray-50 text-gray-700 font-bold rounded-xl border border-gray-100 flex items-center gap-2">
+                                                            <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: selectedProgram.theme }} />
+                                                            {activity.name}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        onClick={() => navigate(`/programs/${selectedId}`)}
+                                        className="mt-16 w-full py-6 bg-gray-900 text-white rounded-2xl font-bold text-xl hover:bg-[#1a1a1a] transition-all flex items-center justify-center gap-4 group"
+                                    >
+                                        상세 커리큘럼 보기
+                                        <ChevronRight className="transition-transform group-hover:translate-x-2" />
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
