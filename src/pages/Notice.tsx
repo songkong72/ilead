@@ -1,13 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Eye, ArrowLeft, Search, Bell } from 'lucide-react';
-import noticesData from '../data/notices.json';
+import { Calendar, Eye, ArrowLeft, Search, Bell, Loader2 } from 'lucide-react';
+import { getNotices, Notice as NoticeType } from '../services/noticeService';
 
 const Notice = () => {
-    const [selectedNotice, setSelectedNotice] = useState<typeof noticesData[0] | null>(null);
+    const [notices, setNotices] = useState<NoticeType[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedNotice, setSelectedNotice] = useState<NoticeType | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const filteredNotices = noticesData.filter(n =>
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const data = await getNotices();
+                setNotices(data);
+            } catch (error) {
+                console.error('공지사항 로드 실패:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        load();
+    }, []);
+
+    const filteredNotices = notices.filter(n =>
         n.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         n.content.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -62,6 +78,11 @@ const Notice = () => {
                                 </p>
                             </div>
                         </div>
+                    </motion.div>
+                ) : loading ? (
+                    <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-20 text-center">
+                        <Loader2 className="animate-spin mx-auto text-blue-500 mb-4" size={32} />
+                        <p className="text-white/40 font-bold">공지사항을 불러오는 중...</p>
                     </motion.div>
                 ) : (
                     /* List View */

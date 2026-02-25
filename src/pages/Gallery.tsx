@@ -1,16 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Calendar, Eye, User, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
-import galleryData from '../data/gallery.json';
+import { Search, Calendar, Eye, User, ArrowLeft, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { getGalleryPosts, GalleryPost } from '../services/galleryService';
 
 const ITEMS_PER_PAGE = 8;
 
 const Gallery = () => {
-    const [selectedPost, setSelectedPost] = useState<typeof galleryData[0] | null>(null);
+    const [posts, setPosts] = useState<GalleryPost[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedPost, setSelectedPost] = useState<GalleryPost | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-    const filteredPosts = galleryData.filter(p =>
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const data = await getGalleryPosts();
+                setPosts(data);
+            } catch (error) {
+                console.error('갤러리 로드 실패:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        load();
+    }, []);
+
+    const filteredPosts = posts.filter(p =>
         p.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -21,9 +37,9 @@ const Gallery = () => {
     );
 
     // 상세 페이지에서 이전/다음 글
-    const currentIndex = selectedPost ? galleryData.findIndex(p => p.id === selectedPost.id) : -1;
-    const prevPost = currentIndex > 0 ? galleryData[currentIndex - 1] : null;
-    const nextPost = currentIndex < galleryData.length - 1 ? galleryData[currentIndex + 1] : null;
+    const currentIndex = selectedPost ? posts.findIndex(p => p.id === selectedPost.id) : -1;
+    const prevPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
+    const nextPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
 
     return (
         <div className="container mx-auto px-6 py-32 min-h-screen">
@@ -106,6 +122,11 @@ const Gallery = () => {
                             </div>
                         </div>
                     </motion.div>
+                ) : loading ? (
+                    <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-20 text-center">
+                        <Loader2 className="animate-spin mx-auto text-blue-500 mb-4" size={32} />
+                        <p className="text-white/40 font-bold">갤러리를 불러오는 중...</p>
+                    </motion.div>
                 ) : (
                     /* ========== 목록 페이지 ========== */
                     <motion.div
@@ -118,7 +139,7 @@ const Gallery = () => {
                         <div className="mb-12">
                             <h2 className="text-4xl md:text-5xl font-black mb-4">갤러리</h2>
                             <p className="text-white/60">
-                                L.E.A.D와 함께했던 수많은 순간들입니다. 총 <span className="text-white font-bold">{galleryData.length}개</span>의 게시물이 있습니다.
+                                L.E.A.D와 함께했던 수많은 순간들입니다. 총 <span className="text-white font-bold">{posts.length}개</span>의 게시물이 있습니다.
                             </p>
                         </div>
 
@@ -182,8 +203,8 @@ const Gallery = () => {
                                         key={page}
                                         onClick={() => setCurrentPage(page)}
                                         className={`w-10 h-10 flex items-center justify-center rounded-xl text-sm font-bold transition-all ${page === currentPage
-                                                ? 'bg-blue-600 text-white'
-                                                : 'bg-white/5 text-white/40 hover:bg-white/10 hover:text-white'
+                                            ? 'bg-blue-600 text-white'
+                                            : 'bg-white/5 text-white/40 hover:bg-white/10 hover:text-white'
                                             }`}
                                     >
                                         {page}
