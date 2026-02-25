@@ -24,17 +24,18 @@ const Navbar = () => {
     }, [location.pathname]);
 
     const navLinks = [
-        { name: '회사소개', path: '/about', color: 'bg-sky-600/95' },
-        { name: '사업영역', path: '/programs', color: 'bg-cyan-600/95' },
-        { name: '제휴 리조트', path: '/partners', color: 'bg-teal-600/95' },
-        { name: '공지사항', path: '/notice', color: 'bg-emerald-600/95' },
-        { name: '갤러리', path: '/gallery', color: 'bg-indigo-600/95' },
+        { name: '회사소개', path: '/about', color: 'bg-sky-600/95', mobileBg: 'bg-sky-700' },
+        { name: '사업영역', path: '/programs', color: 'bg-cyan-600/95', mobileBg: 'bg-cyan-700' },
+        { name: '제휴 리조트', path: '/partners', color: 'bg-teal-600/95', mobileBg: 'bg-teal-700' },
+        { name: '공지사항', path: '/notice', color: 'bg-emerald-600/95', mobileBg: 'bg-emerald-700' },
+        { name: '갤러리', path: '/gallery', color: 'bg-indigo-600/95', mobileBg: 'bg-indigo-700' },
     ];
 
     const activeLink = navLinks.find(link => link.path === location.pathname);
     const hoveredLink = navLinks.find(link => link.path === hoveredMenu);
 
     const currentBgColor = hoveredLink ? hoveredLink.color : (activeLink ? activeLink.color : 'bg-[#254672]/95');
+    const mobileMenuBg = activeLink ? activeLink.mobileBg : 'bg-[#254672]';
 
     const isScrolledState = isScrolled || location.pathname !== '/' || hoveredMenu !== null;
 
@@ -142,13 +143,13 @@ const Navbar = () => {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: '100%' }}
                             transition={{ type: 'tween', duration: 0.3 }}
-                            className={`fixed top-0 right-0 w-64 h-screen ${currentBgColor.replace('/95', '')} shadow-2xl flex flex-col pt-24 px-8 gap-6 z-40`}
+                            className={`fixed top-0 right-0 w-64 h-screen ${mobileMenuBg} shadow-2xl flex flex-col pt-24 px-8 gap-6 z-40`}
                         >
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.path}
                                     to={link.path}
-                                    className={`text-lg font-bold tracking-widest uppercase hover:text-blue-400 transition-colors ${location.pathname === link.path ? 'text-blue-400' : 'text-white'
+                                    className={`text-lg font-bold tracking-widest uppercase transition-colors ${location.pathname === link.path ? 'text-white border-l-4 border-white pl-4' : 'text-white/70 hover:text-white'
                                         }`}
                                 >
                                     {link.name}
