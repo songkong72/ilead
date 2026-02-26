@@ -25,37 +25,35 @@ const LoginModal = () => {
                         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
                     />
 
-                    {/* Modal Content */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="relative w-full max-w-[440px] bg-white rounded-[2.5rem] shadow-2xl overflow-hidden z-10 p-10 md:p-12"
+                        className="relative w-full max-w-[420px] bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-y-auto max-h-[95vh] z-10 p-6 sm:p-8 md:p-12 scrollbar-hide"
                     >
-                        {/* Close Button */}
                         <button
                             onClick={closeLogin}
-                            className="absolute top-8 right-8 text-gray-300 hover:text-gray-900 transition-colors"
+                            className="absolute top-6 right-6 md:top-8 md:right-8 text-gray-300 hover:text-gray-900 transition-colors z-20"
                         >
-                            <X size={28} />
+                            <X size={24} className="md:w-7 md:h-7" />
                         </button>
 
                         {/* Header */}
-                        <div className="text-center mb-10">
-                            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">로그인</h2>
+                        <div className="text-center mb-6 md:mb-10">
+                            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">로그인</h2>
                         </div>
 
                         {/* SNS Logins */}
-                        <div className="space-y-3 mb-8">
-                            <button className="w-full h-14 bg-[#FEE500] text-[#000000] rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:opacity-90 transition-all">
+                        <div className="space-y-2 md:space-y-3 mb-6 md:mb-8">
+                            <button className="w-full h-12 md:h-14 bg-[#FEE500] text-[#000000] rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:opacity-90 transition-all">
                                 <span className="w-5 h-5 flex items-center justify-center bg-black/10 rounded-full text-[10px]">K</span>
                                 카카오로 시작하기
                             </button>
-                            <button className="w-full h-14 bg-[#03C75A] text-white rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:opacity-90 transition-all">
+                            <button className="w-full h-12 md:h-14 bg-[#03C75A] text-white rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:opacity-90 transition-all">
                                 <span className="w-5 h-5 flex items-center justify-center bg-white/20 rounded-full text-[10px]">N</span>
                                 네이버로 시작하기
                             </button>
-                            <button className="w-full h-14 bg-white text-gray-700 rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
+                            <button className="w-full h-12 md:h-14 bg-white text-gray-700 rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
                                 <div className="w-5 h-5 flex items-center justify-center">
                                     <svg viewBox="0 0 24 24" width="18" height="18">
                                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -69,47 +67,47 @@ const LoginModal = () => {
                         </div>
 
                         {/* Divider */}
-                        <div className="relative mb-8 text-center px-4">
+                        <div className="relative mb-6 md:mb-8 text-center px-4">
                             <div className="absolute inset-0 flex items-center">
                                 <div className="w-full border-t border-gray-100"></div>
                             </div>
-                            <span className="relative z-10 bg-white px-4 text-xs font-bold text-gray-300 uppercase tracking-widest">또는</span>
+                            <span className="relative z-10 bg-white px-2 text-[11px] font-bold text-gray-300 uppercase tracking-widest whitespace-nowrap">또는</span>
                         </div>
 
                         {/* Form */}
-                        <div className="space-y-3 mb-6">
+                        <div className="space-y-2 mb-4 md:mb-6">
                             <div className="relative">
                                 <input
                                     type="email"
                                     placeholder="이메일"
-                                    className="w-full h-16 px-6 rounded-xl bg-gray-50 border border-gray-100 focus:bg-white focus:border-blue-500 outline-none transition-all placeholder:text-gray-400 font-medium"
+                                    className="w-full h-13 md:h-16 px-6 rounded-xl bg-gray-50 border border-gray-100 focus:bg-white focus:border-blue-500 outline-none transition-all placeholder:text-gray-400 font-medium text-sm md:text-base"
                                 />
                             </div>
                             <div className="relative">
                                 <input
                                     type="password"
                                     placeholder="비밀번호"
-                                    className="w-full h-16 px-6 rounded-xl bg-gray-50 border border-gray-100 focus:bg-white focus:border-blue-500 outline-none transition-all placeholder:text-gray-400 font-medium"
+                                    className="w-full h-13 md:h-16 px-6 rounded-xl bg-gray-50 border border-gray-100 focus:bg-white focus:border-blue-500 outline-none transition-all placeholder:text-gray-400 font-medium text-sm md:text-base"
                                 />
                             </div>
                         </div>
 
                         {/* Checkbox */}
-                        <div className="flex items-center gap-2 mb-8 px-1">
-                            <input type="checkbox" id="keep" className="w-5 h-5 rounded border-gray-200 text-blue-600 focus:ring-blue-500" />
-                            <label htmlFor="keep" className="text-sm font-bold text-gray-900 cursor-pointer">로그인 상태 유지</label>
+                        <div className="flex items-center gap-2 mb-6 md:mb-8 px-1">
+                            <input type="checkbox" id="keep" className="w-4 h-4 md:w-5 md:h-5 rounded border-gray-200 text-blue-600 focus:ring-blue-500" />
+                            <label htmlFor="keep" className="text-xs md:text-sm font-bold text-gray-900 cursor-pointer">로그인 상태 유지</label>
                         </div>
 
                         {/* Submit Button */}
-                        <button className="w-full h-16 bg-black text-white rounded-xl font-bold text-lg hover:bg-gray-800 transition-all mb-8 shadow-lg shadow-black/10">
+                        <button className="w-full h-14 md:h-16 bg-black text-white rounded-xl font-bold text-base md:text-lg hover:bg-gray-800 transition-all mb-6 md:mb-8 shadow-lg shadow-black/10">
                             로그인
                         </button>
 
                         {/* Links */}
-                        <div className="flex items-center justify-center gap-6 text-sm font-bold text-gray-400">
+                        <div className="flex items-center justify-center gap-4 md:gap-6 text-[11px] md:text-sm font-bold text-gray-400">
                             <button onClick={() => handleLinkClick('/signup')} className="hover:text-gray-900 transition-colors">회원가입</button>
                             <div className="w-[1px] h-3 bg-gray-200" />
-                            <button onClick={() => handleLinkClick('/find-account')} className="hover:text-gray-900 transition-colors">아이디 · 비밀번호 찾기</button>
+                            <button onClick={() => handleLinkClick('/find-account')} className="hover:text-gray-900 transition-colors text-center">아이디 · 비밀번호 찾기</button>
                         </div>
                     </motion.div>
                 </div>

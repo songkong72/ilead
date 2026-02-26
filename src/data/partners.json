@@ -3,27 +3,28 @@
         "id": 1,
         "name": "휘닉스리조트",
         "subtitle": "도전, 모험, 꿈 그리고 미래가 있는 곳!",
-        "description": "강원도의 맑은 공기와 깊은 계곡 청정수가 빚어낸 프리미엄 휴양 시설입니다. 블루캐니언을 비롯한 고품격 테마 스파와 슬로프가 완비되어 있어 단체 캠프 및 수련활동에 최적화된 최상의 즐거움과 편안함을 드립니다.",
-        "location": "강원도 평창군",
+        "description": "평창의 맑은 공기와 제주의 푸른 바다가 만나는 프리미엄 휴양 브랜드입니다. 강원도 평창의 블루캐니언과 스노우파크, 그리고 제주 섭지코지의 아름다운 휘닉스 아일랜드까지, L.E.A.D만의 차별화된 프로그램으로 최상의 수련활동과 휴식을 제공합니다.",
+        "location": "강원도 평창 / 제주특별자치도",
         "tel": "1577-0069",
         "facilities": [
-            "블루캐니언 (테마스파)",
-            "스노우파크 (스키/보드)",
-            "단체 숙박동 (콘도)",
-            "대형 세미나실",
-            "야외 바비큐장",
-            "잔디 광장"
+            "블루캐니언 (평창)",
+            "스노우파크 (평창)",
+            "휘닉스 아일랜드 (제주)",
+            "글라스하우스 & 지니어스 로사이",
+            "대형 세미나실 & 강당",
+            "실내외 수영장 & 스파"
         ],
         "programs": [
-            "스키/보드 강습",
-            "워터파크 캠프",
-            "팀빌딩 활동",
-            "레크리에이션",
-            "자연 생태 체험",
-            "명랑 운동회"
+            "스키/보드 캠프",
+            "워터파크 체험",
+            "제주 문화 탐방",
+            "해양 어드벤처",
+            "팀빌딩 & 리더십",
+            "에코 투어"
         ],
         "images": [
-            "https://phoenixhnr.co.kr/images/ko/waterpark/waterpark-photo01.jpg"
+            "https://phoenixhnr.co.kr/images/ko/waterpark/waterpark-photo01.jpg",
+            "/images/partners/jeju_phoenix_island.png"
         ],
         "mapUrl": "",
         "sections": [
@@ -31,6 +32,7 @@
                 "title": "블루캐니언",
                 "subtitle": "청정지역 강원도의 맑은 물로 만든 고품격 테마스파시설",
                 "content": "강원도의 맑은 공기와 깊은 계곡 청정수가 빚어낸 레저풀형 테마워터파크 블루캐니언이 태어났습니다.\n푸른 물과 하늘 그리고 계곡이 어우러진 블루캐니언에서 즐겁고 짜릿한 추억의 시간을 만들어 보시기 바랍니다.\n휘닉스 블루캐니언이 최상의 즐거움과 편안함을 드릴 것입니다.",
+                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/waterpark-photo01.jpg",
                 "linkedPrograms": "스키/보드캠프, 여름캠프, 수학여행",
                 "features": [
                     {
@@ -109,36 +111,153 @@
                 "title": "휘닉스파크 콘도",
                 "subtitle": "태기산 기슭의 아름다운 전경과 이국적인 정취",
                 "content": "인간의 신진대사를 가장 활발하게 해준다는 해발 700M에 위치한 휘닉스파크 콘도는 국내 콘도 중 최고층을 자랑하는 스카이콘도(28층)을 포함하여 콘도 3개동, 빌라 4개동으로 구성되어 있습니다. 콘도 내에 각종 편의시설이 원스톱으로 구성되어 있으며, 블루, 그린, 오렌지동으로 구성되어 있는 메인 콘도는 동서양의 이미지를 절묘하게 조화시킨 건축물로 유명합니다.",
+                "image": "/images/partners/phoenix_park_condo_winter.png",
                 "linkedPrograms": "스키/보드캠프, 여름캠프, 수학여행",
                 "features": [
                     {
-                        "category": "콘도객실 타입",
+                        "category": "그린동 (Standard / Suite)",
                         "items": [
                             {
-                                "name": "20PY - 스탠다드 66㎡",
-                                "desc": "(4인 1실 · 추가 2인 가능) | 구조: 거실, 주방, 방1, 화장실1 | 위치: 블루동, 그린동, 오렌지동"
+                                "name": "그린동 스탠다드 (20PY)",
+                                "desc": "66㎡ (약 20평형) | 정원 4인 | 구성: 거실 1, 방 1, 주방 1, 화장실 1. 모던한 인테리어와 포레스트 뷰가 조화로운 기본 객실입니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/room/pyeongchang/green/green-standard1.jpg"
                             },
                             {
-                                "name": "30PY - 스위트 99㎡",
-                                "desc": "(5인 1실 · 추가 2인 가능) | 구조: 거실, 주방, 방2, 화장실2 | 위치: 블루동, 그린동, 오렌지동"
+                                "name": "그린동 스위트 (30PY)",
+                                "desc": "99㎡ (약 30평형) | 정원 5인 | 구성: 거실 1, 방 2, 주방 1, 화장실 2. 가족 단위 고객에게 최적화된 여유로운 공간의 객실입니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/room/pyeongchang/photo-condo1-1.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "category": "오렌지동 (Standard / Suite)",
+                        "items": [
+                            {
+                                "name": "오렌지동 스탠다드 (20PY)",
+                                "desc": "66㎡ (약 20평형) | 정원 4인 | 구성: 거실 1, 방 1, 주방 1, 화장실 1. 합리적인 공간 구성으로 내 집 같은 편안함을 드리는 기본 객실입니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/room/pyeongchang/photo-condo2-1.jpg"
                             },
                             {
-                                "name": "40PY - 로얄 132㎡",
-                                "desc": "(6인 1실 · 추가 2인 가능) | 구조: 거실, 주방, 방2, 화장실2 | 위치: 블루동, 빌라동"
+                                "name": "오렌지동 스위트 (30PY)",
+                                "desc": "99㎡ (약 30평형) | 정원 5인 | 구성: 거실 1, 방 2, 주방 1, 화장실 2. 넉넉한 수납과 쾌적한 침실로 구성된 품격 있는 휴식 공간입니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/room/pyeongchang/photo-condo2-2.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "category": "빌라동 (Royal / Royal Suite)",
+                        "items": [
+                            {
+                                "name": "빌라동 로얄 (40PY)",
+                                "desc": "132㎡ (약 40평형) | 정원 6인 | 구성: 거실 1, 방 2, 주방 1, 화장실 2. 프라이빗 유로 빌라 스타일로 태기산 숲길 옆 한적한 휴식을 제공합니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/room/pyeongchang/photo-condo3-2.jpg"
                             },
                             {
-                                "name": "50PY - 로얄스위트 165㎡",
-                                "desc": "(7인 1실 · 추가 2인 가능) | 구조: 거실, 주방, 방3, 화장실2 | 위치: 블루동, 빌라동"
+                                "name": "빌라동 로얄 스위트 (50PY)",
+                                "desc": "165㎡ (약 50평형) | 정원 7인 | 구성: 거실 1, 방 3, 주방 1, 화장실 2. 이국적인 중앙 정원을 품은 최고급 빌라로 대가족 또는 특별한 모임에 어울립니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/room/pyeongchang/photo-condo4-2.jpg"
                             }
                         ]
                     }
                 ]
             },
             {
-                "title": "유스호스텔",
+                "title": "휘닉스파크 유스호스텔",
                 "subtitle": "푸른 땀이 흐르는 청소년들만의 공간, 휘닉스빌에서 자연을 느끼자!",
                 "content": "자연 속에서 마음껏 호흡하고 신나는 레포츠를 즐길 수 있는 청소년 전용 공간 휘닉스빌에서 미래의 꿈과 희망을 키워보세요.\n- 현황 : 지상 5층(객실수 76실), 수용인원(중학생 : 1,094명/초등학생 : 1,185명)",
-                "linkedPrograms": "학년수련, 보장훈련, 여름캠프"
+                "image": "https://cdn.imweb.me/thumbnail/20250617/3887c6b506f52.jpg",
+                "linkedPrograms": "학년수련, 보장훈련, 여름캠프",
+                "features": [
+                    {
+                        "category": "유스호스텔 (Phoenix Vill)",
+                        "items": [
+                            {
+                                "name": "유스 8인실 침대 / 10인실 온돌",
+                                "desc": "정원 8~10인 | 청소년 단체 전용 객실로 2층 침대형 또는 한국식 온돌형 선택 가능. 슬로프 방향 조망과 쾌적한 수련 환경을 제공합니다.",
+                                "image": "https://cdn.imweb.me/thumbnail/20250613/458143d2606b7.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "category": "오렌지동 (Orange Building)",
+                        "items": [
+                            {
+                                "name": "오렌지동 콘도형 객실",
+                                "desc": "20~30평형 (4~5인) | 단체 연수 및 가족 단위 수련에 적합한 콘도형 객실. 거실과 주방 기능을 갖추어 내 집 같은 편안함을 제공합니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/room/pyeongchang/photo-condo2-1.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "category": "그린동 (Green Building)",
+                        "items": [
+                            {
+                                "name": "그린동 콘도형 객실",
+                                "desc": "20~30평형 (4~5인) | 포레스트 뷰와 모던한 인테리어가 조화로운 객실. 체계적인 관리로 쾌적한 숙박 경험을 선사합니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/room/pyeongchang/green/green-standard1.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "category": "빌라동 (Villa Building)",
+                        "items": [
+                            {
+                                "name": "빌라동 빌라형 객실",
+                                "desc": "40~50평형 (6~7인) | 한적한 숲속 유럽풍 빌라 스타일. 대규모 팀빌딩이나 고위층 연수에 적합한 프라이빗하고 품격 있는 공간입니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/room/pyeongchang/photo-condo3-2.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "category": "주요 시설 (Auditorium)",
+                        "items": [
+                            {
+                                "name": "대강당 / 포레스트홀",
+                                "desc": "최대 800명 수용 가능 | 대규모 청소년 수련 활동, 레크리에이션, 세미나를 위한 최신 음향 및 조명 설비를 갖춘 메인 홀입니다.",
+                                "image": "https://cdn.imweb.me/thumbnail/20250617/3887c6b506f52.jpg"
+                            },
+                            {
+                                "name": "전용 강당 (벌개미취)",
+                                "desc": "유스호스텔 전용 강당으로, 집중도 높은 분과 토의나 소규모 집단 활동에 최적화된 최신 시설을 제공합니다.",
+                                "image": "https://cdn.imweb.me/thumbnail/20250616/f3f1459ca4c54.jpg"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "휘닉스 아일랜드 (Jeju)",
+                "subtitle": "천혜의 자연과 비일상의 즐거움이 공존하는 섭지코지",
+                "content": "섭지코지는 천혜의 조건을 가진 '지상낙원'입니다.\n휘닉스 아일랜드는 환경친화적인 해양종합 리조트로 \n숙박, 휴양, 레저, 문화가 공존하는 미래형 리조트입니다.",
+                "image": "/images/partners/jeju_phoenix_island.png",
+                "linkedPrograms": "수학여행, 힐링캠프",
+                "features": [
+                    {
+                        "category": "숙박공간 (Bella Terrace)",
+                        "items": [
+                            {
+                                "name": "벨라테라스 로얄/로얄스위트",
+                                "desc": "지중해풍의 고급스러운 인테리어와 탁 트인 제주 바다 조망을 자랑하는 프리미엄 콘도미니엄입니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/room/jeju/royal-suite/royal-suite2.jpg"
+                            }
+                        ]
+                    },
+                    {
+                        "category": "주요 건축물",
+                        "items": [
+                            {
+                                "name": "글라스하우스",
+                                "desc": "세계적인 건축가 안도 타다오가 설계한 건축물로, 성산일출봉의 전망을 정면으로 마주하는 레스토랑과 전시 공간입니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/resort/island/facility/gh-exterior.jpg"
+                            },
+                            {
+                                "name": "지니어스 로사이",
+                                "desc": "자연과 명상이 어우러진 공간으로, 제주의 바람과 빛, 돌을 건축물 안으로 끌어들인 예술적인 명상 센터입니다.",
+                                "image": "https://phoenixhnr.co.kr/images/ko/resort/island/facility/gl-exterior.jpg"
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     },
@@ -165,28 +284,34 @@
             "조직 활성화 연수",
             "캠프파이어"
         ],
-        "images": [],
+        "images": [
+            "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/R_SS_1.jpg"
+        ],
         "mapUrl": "",
         "sections": [
             {
                 "title": "한화리조트 설악 쏘라노 (SEORAK SORANO)",
                 "subtitle": "동해와 설악이 맞닿은 자연의 아름다운 풍경",
                 "content": "시간과 공간을 초월하는 유럽의 절대적 미(Beauty).\n유럽에 대한 향수와 생명력 넘치는 자연을 모티브로 만들어내는 꿈의 신세계!\n주 소 : 강원도 속초시 장사동 24-1",
+                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/R_SS_1.jpg",
                 "features": [
                     {
                         "category": "부대시설",
                         "items": [
                             {
                                 "name": "Pantheon(다목적홀)",
-                                "desc": "단체 행사와 각종 이벤트로 쏘라노에서 아름다운 추억을 만들어요"
+                                "desc": "단체 행사와 각종 이벤트로 쏘라노에서 아름다운 추억을 만들어요",
+                                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/2(11).jpg"
                             },
                             {
                                 "name": "세미나실",
-                                "desc": "고품격 교육/연수시설, 소규모 분임토의실도 운영하고 있습니다"
+                                "desc": "고품격 교육/연수시설, 소규모 분임토의실도 운영하고 있습니다",
+                                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/2(10).jpg"
                             },
                             {
                                 "name": "La Galleria(카페&조식뷔페)",
-                                "desc": "맛과 휴식이 공존하는 델리카페. 브런치와 간편한 세트메뉴, 와인이 준비되어 있습니다."
+                                "desc": "맛과 휴식이 공존하는 델리카페. 브런치와 간편한 세트메뉴, 와인이 준비되어 있습니다.",
+                                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/special_addition_facilities/153112057190175670.jpg"
                             }
                         ]
                     }
@@ -197,21 +322,20 @@
                 "title": "한화리조트 설악 (Dynamic Seorak Resort)",
                 "subtitle": "설악산과 동해바다가 한자리에 어우러진 곳!",
                 "content": "설악산의 웅장한 아름다움. 동해바다의 푸르름.\n노천 온천에서 즐길 수 있는 건강한 휴식과 골프의 즐거움.\n주 소 : 강원도 속초시 장사동 24-1",
+                "image": "https://www.hanwharesort.co.kr/irsweb/resort3/images/resort/intro/0101_intro_01.jpg",
                 "features": [
                     {
                         "category": "부대시설",
                         "items": [
                             {
                                 "name": "워터피아",
-                                "desc": "양이온과 음이온이 함유된 중성탄산나트륨 온천수로, 종합 온천 테마파크입니다"
+                                "desc": "양이온과 음이온이 함유된 중성탄산나트륨 온천수로, 종합 온천 테마파크입니다",
+                                "image": "https://phoenixhnr.co.kr/images/ko/waterpark/waterpark-photo01.jpg"
                             },
                             {
                                 "name": "씨네라마",
-                                "desc": "영화와 드라마의 합성어로 오픈 세트장을 통해 새로운 레저문화를 이끌어갑니다"
-                            },
-                            {
-                                "name": "국궁장",
-                                "desc": "전통 국궁을 체험해 볼 수 있습니다"
+                                "desc": "영화와 드라마의 합성어로 오픈 세트장을 통해 새로운 레저문화를 이끌어갑니다",
+                                "image": "https://ak-d.tripcdn.com/target/100m0i000000ca65p8AE8_C_1280_853.jpg"
                             }
                         ]
                     }
@@ -222,21 +346,15 @@
                 "title": "한화리조트 경주 (Gyeongju Resort)",
                 "subtitle": "신라 천년의 신비와 함께 즐기는 편안한 레저로의 초대",
                 "content": "천년의 역사가 숨쉬는 곳.\n옛 신라의 전설을 그대로 재현한 온천 테마파크, 신나는 물의 천국, 경주 스프링돔이 있어 더욱 재미있습니다.\n주 소 : 경북 경주시 북군동 30-3",
+                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/170960537024443916.jpg",
                 "features": [
                     {
-                        "category": "부대시설",이부분은 구 사이트에 없는 사진인것 같아요. 
+                        "category": "부대시설",
                         "items": [
                             {
                                 "name": "스프링돔",
-                                "desc": "지하 750M에서 뽑은 천연 온천수와 사계절 온천욕의 참맛을 느낄 수 있는 온천 테마파크"
-                            },
-                            {
-                                "name": "족구장",
-                                "desc": "담톤1층 로비 앞에 위치한 족구장은 즐거운 시간은 물론 건강까지 만족시켜 드릴 것입니다"
-                            },
-                            {
-                                "name": "BB탄 사격장",
-                                "desc": "온몸으로 전해지는 짜릿한 전율! 사격도 하고 선물도 받고!"
+                                "desc": "지하 750M에서 뽑은 천연 온천수와 사계절 온천욕의 참맛을 느낄 수 있는 온천 테마파크",
+                                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/170960537024443916.jpg"
                             }
                         ]
                     }
@@ -247,21 +365,15 @@
                 "title": "한화리조트 제주 (Dynamic Jeju Resort)",
                 "subtitle": "한라산 기슭의 상쾌하고 맑은 공기와 깨끗한 물",
                 "content": "바다와 섬.\n야간에는 도심의 불빛까지도 감상할 수 있는 천혜의 경관\n주 소 : 제주도 제주시 회천동 3-16",
+                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/176008696283617726.jpg",
                 "features": [
                     {
                         "category": "부대시설",
                         "items": [
                             {
                                 "name": "테라피센터",
-                                "desc": "제주의 자연을 느낄 수 있는 스파테라피에서 진정한 휴식을 경험해 보세요"
-                            },
-                            {
-                                "name": "파크가든",
-                                "desc": "실내 포장마차에서 즐기는 흑돼지 숯불구이"
-                            },
-                            {
-                                "name": "대연회장 및 세미나실",
-                                "desc": "고객의 눈높이에 맞춘 고품격 교육/연수 시설"
+                                "desc": "제주의 자연을 느낄 수 있는 스파테라피에서 진정한 휴식을 경험해 보세요",
+                                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/176008696283617726.jpg"
                             }
                         ]
                     }
@@ -272,21 +384,15 @@
                 "title": "한화리조트 해운대 티볼리 (HAEUNDAE TIVOLI)",
                 "subtitle": "해운대와 오륙도, 광안대교가 함께 어우르는 곳!",
                 "content": "대한민국 새로운 레저문화 중심지 한화리조트 해운대 티볼리\n주 소 : 부산시 해운대구 우동 1410-3",
+                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/169045588383344641.jpg",
                 "features": [
                     {
                         "category": "부대시설",
                         "items": [
                             {
-                                "name": "블루시걸",
-                                "desc": "120여 가지의 요리와 해산물, 그리고 스테이크. 먹는 즐거움을 선사해 드리겠습니다"
-                            },
-                            {
-                                "name": "세미나실",
-                                "desc": "조용하고 아늑한 분위기에서 최고의 행사효과를 만들어 냅니다(최신 세미나 기자재 보유)"
-                            },
-                            {
                                 "name": "사우나",
-                                "desc": "대자연과 같은 휴식과 여유로움을 제공하는 쾌적한 실내공간으로 맞이하겠습니다"
+                                "desc": "대자연과 같은 휴식과 여유로움을 제공하는 쾌적한 실내공간으로 맞이하겠습니다",
+                                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/169045588383344641.jpg"
                             }
                         ]
                     }
@@ -297,21 +403,15 @@
                 "title": "한화리조트 대천 파로스 (Daecheon Resort)",
                 "subtitle": "서해안 최초의 리조트",
                 "content": "아름다운 저녁 노을과 대천해수욕장의 풍경이 어우러진 곳!\n주 소 : 충남 보령시 해수욕장3길 11-10번지",
+                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/176008638368814763.jpg",
                 "features": [
                     {
                         "category": "부대시설",
                         "items": [
                             {
-                                "name": "뷔페&단체식당",
-                                "desc": "60여가지의 한식과 양식을 매일 아침 즐길 수 있습니다"
-                            },
-                            {
-                                "name": "Grill & Pub",
-                                "desc": "소나무, 단풍나무가 어우러져 자연과 음악이 함께하는 곳! 직화구이로 맛을 더합니다"
-                            },
-                            {
                                 "name": "스크린 사격장",
-                                "desc": "실제 총알은 발사되지 않지만, 실총의 사격 느낌을 느낄 수 있습니다"
+                                "desc": "실제 총알은 발사되지 않지만, 실총의 사격 느낌을 느낄 수 있습니다",
+                                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/176008638368814763.jpg"
                             }
                         ]
                     }
@@ -322,21 +422,15 @@
                 "title": "한화리조트 산정호수 (Sanjeong lake Resort)",
                 "subtitle": "숲과 호수가 절경을 이루고 있는 순수 자연의 공간",
                 "content": "천혜의 자연환경에 빛나는 최고의 시설 한화리조트 산정호수\n주 소 : 경기도 포천시 영북면 산정리 454-4",
+                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/176008669389255651.jpg",
                 "features": [
                     {
                         "category": "부대시설",
                         "items": [
                             {
-                                "name": "야외가든 바비큐장",
-                                "desc": "시원한 야외에서 펼쳐지는 환상의 바비큐 파티"
-                            },
-                            {
-                                "name": "족구장",
-                                "desc": "편안한 쉼터를 제공합니다(족구장 or 단체행사 진행시에는 캠프파이어 가능)"
-                            },
-                            {
                                 "name": "온천탕",
-                                "desc": "몸에 좋은 온천수로 피부질환 및 미용에 탁월한 효과가 있습니다"
+                                "desc": "몸에 좋은 온천수로 피부질환 및 미용에 탁월한 효과가 있습니다",
+                                "image": "https://18db057190b78dc7.kinxzone.com/upfiles/resort/resort/176008669389255651.jpg"
                             }
                         ]
                     }
@@ -347,21 +441,15 @@
                 "title": "한화리조트 양평 (Yangpyeong Resort)",
                 "subtitle": "천연삼림욕이 함께하는 가족휴식과 기업연수의 최적지",
                 "content": "대한민국 대표 청정 리조트, 한화리조트 양평.\n주 소 : 경기도 양평군 옥천면 신복리 141-5",
+                "image": "https://img.hotels.com/hotels/36000000/35650000/35649900/35649831/be97eab4_z.jpg",
                 "features": [
                     {
                         "category": "부대시설",
                         "items": [
                             {
-                                "name": "챌린지코스",
-                                "desc": "함께 즐기며 돈독한 공동체 의식을 발견하는 야외 교육코스로 초대합니다"
-                            },
-                            {
-                                "name": "운동장",
-                                "desc": "넓고 안락한 야외공간이 필요한 모든 행사에 최적의 조건을 제공합니다"
-                            },
-                            {
                                 "name": "옥외수영장",
-                                "desc": "가족들과 함께 옥외수영장에서 신나는 여름을 즐기세요"
+                                "desc": "가족들과 함께 옥외수영장에서 신나는 여름을 즐기세요",
+                                "image": "https://img.hotels.com/hotels/36000000/35650000/35649900/35649831/be97eab4_z.jpg"
                             }
                         ]
                     }
@@ -372,21 +460,15 @@
                 "title": "한화리조트 지리산 (Jirisan Resort)",
                 "subtitle": "지리산의 넉넉한 품과 섬진강의 맑은 물을 만나는 곳",
                 "content": "남도의 멋을 느낄 수 있는 아늑한 전천후 휴양 리조트\n주 소 : 전남 구례군 마산면 황전리 32-2",
+                "image": "https://ak-d.tripcdn.com/target/100m0i000000ca65p8AE8_C_1280_853.jpg",
                 "features": [
                     {
                         "category": "부대시설",
                         "items": [
                             {
                                 "name": "산책로",
-                                "desc": "산책로를 이용하여 지리산 자연을 느껴보세요"
-                            },
-                            {
-                                "name": "야외가든",
-                                "desc": "지리산 전경이 한눈에. 사계절 경쾌한 계곡 물소리, 숨소리를 느낄 수 있는 곳"
-                            },
-                            {
-                                "name": "족구장",
-                                "desc": "족구장에서 운동을 즐기세요"
+                                "desc": "산책로를 이용하여 지리산 자연을 느껴보세요",
+                                "image": "https://ak-d.tripcdn.com/target/100m0i000000ca65p8AE8_C_1280_853.jpg"
                             }
                         ]
                     }
@@ -418,7 +500,33 @@
             "웰니스 힐링 프로그램",
             "프리미엄 팀빌딩"
         ],
-        "images": [],
-        "mapUrl": ""
+        "images": [
+            "https://www.konjiamresort.co.kr/images/resort/intro/img_visual_01.jpg",
+            "https://www.konjiamresort.co.kr/images/resort/ski/slope/img_slope_01.jpg"
+        ],
+        "mapUrl": "",
+        "sections": [
+            {
+                "title": "스키장(슬로프, 리프트)",
+                "subtitle": "서울에서 가까운 수도권 최대규모의 스키장",
+                "content": "부대시설 : 리프트, 장비렌탈, 의류렌탈, 스키&보드스쿨, 눈썰매장, 무료셔틀버스 및 기타 편의시설\n오시는길 : 경기도 광주시 도척면 도웅리 산 23-1번지",
+                "image": "https://www.konjiamresort.co.kr/images/resort/ski/slope/img_slope_01.jpg",
+                "linkedPrograms": "스키캠프, 스키강습, 눈썰매장"
+            },
+            {
+                "title": "콘도, 식당, 부대시설",
+                "subtitle": "독특한 분위기를 선사하는 테마 객실",
+                "content": "부대시설 : 라그로타, 미라시아, 담하, 비식스, 카페테리아, 올리브, 정상휴게소, 스테이지, 트랄라\n오시는길 : 경기도 광주시 도척면 도웅리 산 23-1번지",
+                "image": "https://www.konjiamresort.co.kr/images/resort/condo/room/img_room_01.jpg",
+                "linkedPrograms": "스키캠프, 스키강습, 눈썰매장"
+            },
+            {
+                "title": "스파",
+                "subtitle": "몸과마음의 웰빙을 위한 최선의 방법",
+                "content": "부대시설 : 각종 스파 프로그램 및 기타 편의시설\n오시는길 : 경기도 광주시 도척면 도웅리 산 23-1번지",
+                "image": "https://www.konjiamresort.co.kr/images/resort/spa/img_spa_01.jpg",
+                "linkedPrograms": "웰네스프로그램, 패밀리스파, 후스파팰리스"
+            }
+        ]
     }
 ]

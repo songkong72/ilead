@@ -21,7 +21,6 @@
   },
   "auth": {
     "providers": {
-      "anonymous": false,
       "emailPassword": true
     }
   }

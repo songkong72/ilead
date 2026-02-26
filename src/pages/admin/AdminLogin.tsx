@@ -17,25 +17,54 @@ const AdminLogin = () => {
         setError('');
         setIsLoading(true);
 
+        const trimmedId = id.trim();
+        const trimmedPassword = password.trim();
+
+        if (!trimmedId || !trimmedPassword) {
+            setError('아이디와 비밀번호를 모두 입력해주세요.');
+            setIsLoading(false);
+            return;
+        }
+
+        const adminEnvId = import.meta.env.VITE_ADMIN_ID;
+        const adminEnvPw = import.meta.env.VITE_ADMIN_PW;
+
         // 아이디가 이메일 형식이 아니면 기본 도메인 추가
-        const email = id.includes('@') ? id : `${id}@ilead.com`;
+        const email = trimmedId.includes('@') ? trimmedId : `${trimmedId}@ilead.com`;
 
         try {
-            // Firebase Auth 로그인 시도
-            await signInWithEmailAndPassword(auth, email, password);
+            // 1. Firebase Auth 로그인 시도
+            await signInWithEmailAndPassword(auth, email, trimmedPassword);
             navigate('/admin/dashboard');
         } catch (err: any) {
-            // Firebase에 계정이 아직 없는 초기 상태 대비 (환경변수 값으로 최초 1회 생성)
-            if (id === import.meta.env.VITE_ADMIN_ID && password === import.meta.env.VITE_ADMIN_PW) {
+            console.error('Login Error:', err.code);
+
+            // 2. 로그인 실패 시, 환경변수와 일치하면 계정 자동 생성 시도 (최초 1회)
+            if (trimmedId === adminEnvId && trimmedPassword === adminEnvPw) {
                 try {
-                    await createUserWithEmailAndPassword(auth, email, password);
+                    await createUserWithEmailAndPassword(auth, email, trimmedPassword);
                     navigate('/admin/dashboard');
                     return;
-                } catch (createErr) {
-                    console.error('계정 자동 생성 실패', createErr);
+                } catch (createErr: any) {
+                    console.error('Create Account Error:', createErr.code);
+                    if (createErr.code === 'auth/email-already-in-use') {
+                        setError('이미 존재하는 계정입니다. 비밀번호를 다시 확인해주세요.');
+                    } else if (createErr.code === 'auth/weak-password') {
+                        setError('비밀번호가 보안 정책에 맞지 않습니다 (6자 이상).');
+                    } else {
+                        setError(`계정 생성 실패: ${createErr.message}`);
+                    }
+                    setIsLoading(false);
+                    return;
                 }
             }
-            setError('아이디 또는 비밀번호가 올바르지 않습니다.');
+
+            // 3. 일반적인 실패 메시지
+            if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                setError('아이디 또는 비밀번호가 올바르지 않습니다.');
+            } else {
+                setError(`로그인 오류: ${err.message}`);
+            }
         } finally {
             setIsLoading(false);
         }

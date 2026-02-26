@@ -9,7 +9,9 @@ import {
     Menu,
     X,
     ChevronRight,
-    Search
+    Search,
+    Home,
+    ExternalLink
 } from 'lucide-react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../firebase/config';
@@ -79,7 +81,14 @@ const AdminLayout = () => {
                 ))}
             </nav>
 
-            <div className="p-6 border-t border-white/5">
+            <div className="p-6 border-t border-white/5 space-y-2">
+                <Link
+                    to="/"
+                    className={`w-full flex items-center gap-4 ${isCollapsed ? 'justify-center' : ''} px-4 py-4 rounded-2xl text-blue-400 hover:bg-blue-400/10 transition-colors group`}
+                >
+                    <ExternalLink size={20} />
+                    {!isCollapsed && <span className="font-bold text-sm">홈페이지 보기</span>}
+                </Link>
                 <button
                     onClick={handleLogout}
                     className={`w-full flex items-center gap-4 ${isCollapsed ? 'justify-center' : ''} px-4 py-4 rounded-2xl text-red-400 hover:bg-red-400/10 transition-colors group`}
@@ -106,11 +115,9 @@ const AdminLayout = () => {
                 <div className="p-8 flex items-center justify-between">
                     <AnimatePresence mode="wait">
                         {isSidebarOpen && (
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                className="flex items-center gap-3"
+                            <Link
+                                to="/"
+                                className="flex items-center gap-3 hover:opacity-80 transition-opacity"
                             >
                                 <div className="grid grid-cols-2 gap-0.5 w-6 h-6">
                                     <div className="bg-[#E74C3C]" />
@@ -119,7 +126,7 @@ const AdminLayout = () => {
                                     <div className="bg-[#F1C40F]" />
                                 </div>
                                 <span className="text-xl font-black tracking-tighter">LEAD 관리자</span>
-                            </motion.div>
+                            </Link>
                         )}
                     </AnimatePresence>
                     <button

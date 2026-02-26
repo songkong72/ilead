@@ -62,7 +62,7 @@ const Navbar = () => {
                     </div>
                     {/* Text Logo with Premium Typography */}
                     <div className="flex flex-col">
-                        <span className={`text-2xl font-black tracking-tighter transition-all duration-300 ${textColorClass}`}>
+                        <span className={`text-2xl font-bold tracking-tighter transition-all duration-300 ${textColorClass}`}>
                             엘이에이디컨설팅(주)
                         </span>
                         <span className={`text-[10px] font-bold tracking-[0.3em] uppercase transition-all duration-300 text-white/80`}>
@@ -72,14 +72,14 @@ const Navbar = () => {
                 </Link>
 
                 {/* Desktop Menu */}
-                <nav className="hidden md:flex gap-10 items-center">
+                <nav className="hidden lg:flex gap-8 items-center">
                     {navLinks.map((link) => (
                         <Link
                             key={link.path}
                             to={link.path}
                             onMouseEnter={() => setHoveredMenu(link.path)}
                             onMouseLeave={() => setHoveredMenu(null)}
-                            className={`text-sm font-semibold tracking-widest uppercase transition-colors hover:text-white ${location.pathname === link.path || hoveredMenu === link.path
+                            className={`text-[1.05rem] font-bold tracking-widest uppercase transition-colors hover:text-white ${location.pathname === link.path || hoveredMenu === link.path
                                 ? 'text-white drop-shadow-md'
                                 : 'text-white/70'
                                 }`}
@@ -89,28 +89,26 @@ const Navbar = () => {
                     ))}
 
                     {/* PC Login & Signup Buttons */}
-                    <div className="ml-6 flex items-center gap-3">
+                    <div className="ml-4 flex items-center gap-2">
+                        {/* 관리자 상태 확인은 useAuth나 직접 firebase check 가능하지만 여기선 간단히 로그인 여부로 판단 */}
                         <button
                             onClick={openLogin}
-                            className={`px-6 py-2 rounded-full font-bold text-sm transition-all duration-300 ${textColorClass} ${linkHoverClass}`}
+                            className={`px-4 py-2 rounded-full font-bold text-sm transition-all duration-300 ${textColorClass} ${linkHoverClass}`}
                         >
                             로그인
                         </button>
                         <Link
-                            to="/signup"
-                            className={`px-6 py-2 rounded-full font-bold text-sm transition-all duration-300 ${isScrolledState
-                                ? 'bg-white text-[#254672] hover:bg-gray-100 shadow-md'
-                                : 'bg-white/20 text-white backdrop-blur-md hover:bg-white/40 border border-white/30'
-                                }`}
+                            to="/admin" // 보낸 스크린샷의 대시보드 주소
+                            className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full font-black text-xs text-white transition-all backdrop-blur-sm shadow-xl"
                         >
-                            회원가입
+                            관리자 페이지
                         </Link>
                     </div>
                 </nav>
 
                 {/* Mobile Menu Toggle */}
-                <div className="flex items-center gap-4 md:hidden">
-                    <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4 lg:hidden">
+                    <div className="hidden sm:flex items-center gap-1">
                         <button
                             onClick={openLogin}
                             className={`px-3 py-1.5 font-bold text-xs transition-colors ${textColorClass} ${linkHoverClass}`}
@@ -119,10 +117,7 @@ const Navbar = () => {
                         </button>
                         <Link
                             to="/signup"
-                            className={`px-4 py-1.5 rounded-full font-bold text-xs transition-all duration-300 ${isScrolledState
-                                ? 'bg-white text-[#254672]'
-                                : 'bg-white/20 text-white backdrop-blur-md border border-white/30'
-                                }`}
+                            className={`px-4 py-1.5 font-bold text-xs transition-colors ${textColorClass} ${linkHoverClass}`}
                         >
                             회원가입
                         </Link>

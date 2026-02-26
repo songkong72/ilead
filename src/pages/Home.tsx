@@ -11,10 +11,13 @@ import {
     X
 } from 'lucide-react';
 import { programs } from '../data/programs';
+import { useImageOverrides } from '../hooks/useImageOverrides';
+import AdminImageManager from '../components/common/AdminImageManager';
 
 const Home = () => {
     const navigate = useNavigate();
     const [selectedId, setSelectedId] = useState<string | null>(null);
+    const { isAdmin, getImageUrl } = useImageOverrides();
 
     // Thematic Colors & Assets
     const heroSlides = [
@@ -119,8 +122,22 @@ const Home = () => {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 1.5, ease: "easeInOut" }}
                         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat saturate-[1.1]"
-                        style={{ backgroundImage: `url('${heroSlides[currentImageIndex].img}')` }}
-                    />
+                        style={{ backgroundImage: `url('${getImageUrl(heroSlides[currentImageIndex].img, `home_hero_${currentImageIndex}`)}')` }}
+                    >
+                        {isAdmin && (
+                            <div className="absolute top-32 right-8 z-50">
+                                <AdminImageManager
+                                    isAdmin={isAdmin}
+                                    uploadKey={`home_hero_${currentImageIndex}`}
+                                >
+                                    <button className="flex items-center gap-2 px-4 py-2 bg-black/50 hover:bg-black/70 text-white rounded-lg backdrop-blur-md border border-white/20 transition-all font-bold text-sm">
+                                        <Waves size={16} />
+                                        배경 이미지 교체
+                                    </button>
+                                </AdminImageManager>
+                            </div>
+                        )}
+                    </motion.div>
                 </AnimatePresence>
 
                 <div className="absolute inset-0 z-10 bg-black/40 backdrop-blur-[1px]" />
@@ -210,12 +227,17 @@ const Home = () => {
                                 {/* Background Image & Gradient Masks */}
                                 <div className="absolute inset-0 z-0 bg-[#050505]">
                                     <div className="absolute top-0 left-0 right-0 h-full overflow-hidden">
-                                        <motion.img
-                                            layoutId={`img-${item.id}`}
-                                            src={item.coverImgUrl}
-                                            alt={item.title}
-                                            className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 opacity-60 mix-blend-luminosity"
-                                        />
+                                        <AdminImageManager
+                                            isAdmin={isAdmin}
+                                            uploadKey={`home_item_${item.id}`}
+                                        >
+                                            <motion.img
+                                                layoutId={`img-${item.id}`}
+                                                src={getImageUrl(item.coverImgUrl, `home_item_${item.id}`)}
+                                                alt={item.title}
+                                                className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 saturate-[1.2]"
+                                            />
+                                        </AdminImageManager>
                                         {/* Seamless fade to dark bottom */}
                                         <div className="absolute inset-x-0 bottom-0 h-[80%] bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent pointer-events-none" />
                                         <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-[#050505] to-transparent pointer-events-none" />

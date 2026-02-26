@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Waves, MountainSnow, Leaf, Compass, ArrowRight } from 'lucide-react';
 import { programs } from '../data/programs';
+import { useImageOverrides } from '../hooks/useImageOverrides';
+import AdminImageManager from '../components/common/AdminImageManager';
 
 const programCards = [
     {
@@ -40,20 +42,31 @@ const programCards = [
 
 const Programs = () => {
     const navigate = useNavigate();
+    const { isAdmin, getImageUrl } = useImageOverrides();
 
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Header */}
-            <section className="relative pt-32 pb-20 bg-[#FAF5F0] overflow-hidden">
-                <div className="absolute inset-0 opacity-10">
-                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full blur-[150px]" />
-                    <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500 rounded-full blur-[150px]" />
+            <section className="relative pt-40 pb-32 bg-[#134e4a] overflow-hidden">
+                {/* 배경 효과 */}
+                <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-emerald-500 rounded-full blur-[120px] mix-blend-screen" />
+                    <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-teal-500 rounded-full blur-[120px] mix-blend-screen" />
+                    <AdminImageManager isAdmin={isAdmin} uploadKey="programs_header_bg">
+                        <img
+                            src={getImageUrl('/assets/images/headers/programs-bg.jpg', 'programs_header_bg')}
+                            alt="Programs background"
+                            className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay fixed"
+                        />
+                    </AdminImageManager>
                 </div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent pointer-events-none" />
+
                 <div className="container mx-auto px-6 max-w-7xl relative z-10">
                     <motion.span
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-gray-500 font-bold tracking-[0.5em] uppercase text-sm mb-6 block"
+                        className="text-white/60 font-black tracking-[0.5em] uppercase text-xs md:text-sm mb-6 block"
                     >
                         Our Programs
                     </motion.span>
@@ -61,15 +74,16 @@ const Programs = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-5xl md:text-7xl font-bold text-gray-900 tracking-tight mb-6"
+                        className="text-5xl md:text-8xl font-black text-white tracking-tighter mb-8 italic"
                     >
                         사업영역
                     </motion.h1>
+                    <div className="h-1.5 w-24 bg-gradient-to-r from-emerald-500 to-transparent rounded-full mb-8" />
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="text-gray-600 text-xl max-w-2xl leading-relaxed"
+                        className="text-white/90 text-lg md:text-2xl max-w-3xl leading-relaxed font-medium"
                     >
                         L.E.A.D는 레저, 체험, 액션, 디자인의 4가지 핵심 사업 영역을 통해
                         최상의 커리큘럼을 제공합니다.
@@ -95,11 +109,16 @@ const Programs = () => {
                                 >
                                     {/* Background Image */}
                                     <div className="absolute inset-0">
-                                        <img
-                                            src={card.coverImg}
-                                            alt={card.title}
-                                            className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
-                                        />
+                                        <AdminImageManager
+                                            isAdmin={isAdmin}
+                                            uploadKey={`program_card_${card.id}`}
+                                        >
+                                            <img
+                                                src={getImageUrl(card.coverImg, `program_card_${card.id}`)}
+                                                alt={card.title}
+                                                className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
+                                            />
+                                        </AdminImageManager>
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                                     </div>
 
