@@ -65,7 +65,6 @@ export const useImageOverrides = () => {
     const logout = async () => {
         try {
             await signOut(auth);
-            alert('로그아웃 되었습니다.');
         } catch (error) {
             console.error('Logout error:', error);
         }
