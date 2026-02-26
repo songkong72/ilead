@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Lock, User, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
+import { Lock, User, ArrowRight, ShieldCheck, Loader2, Home } from 'lucide-react';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase/config';
 
@@ -139,10 +139,19 @@ const AdminLogin = () => {
                 </form>
 
                 {/* Footer */}
-                <div className="text-center">
+                <div className="text-center space-y-6">
                     <p className="text-gray-400 text-xs font-medium">
                         최초 로그인 시 제공된 기본 비밀번호로 연동이 설정됩니다.
                     </p>
+                    <div className="pt-4 border-t border-gray-100/50">
+                        <button
+                            onClick={() => navigate('/')}
+                            className="inline-flex items-center gap-2 text-gray-500 hover:text-blue-600 font-bold text-sm transition-colors group"
+                        >
+                            <Home size={18} className="group-hover:-translate-y-0.5 transition-transform" />
+                            홈페이지로 이동
+                        </button>
+                    </div>
                 </div>
             </motion.div>
         </div>

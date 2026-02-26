@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
     Waves,
-    MountainSnow,
     Leaf,
+    MountainSnow,
     Compass,
     ChevronRight,
     ArrowRight,
@@ -22,6 +22,7 @@ const Home = () => {
     // Thematic Colors & Assets
     const heroSlides = [
         {
+            tag: "Leisure",
             img: "/assets/images/programs/leisure.jpg",
             title: "자연의 에너지, 레포츠",
             subtitle: "역동적인 에너지가 넘치는 자연 속의 특별한 쉼표",
@@ -31,31 +32,34 @@ const Home = () => {
             accent: 'from-orange-500 to-red-600'
         },
         {
-            img: "/assets/images/programs/experience.jpg",
-            title: "성장의 가치, 스키캠프",
-            subtitle: "전문적인 스키 캠프로 키워가는 도전과 성장의 가치",
-            id: 'experience',
+            tag: "Education",
+            img: "/assets/images/programs/skiing.jpg",
+            title: "지속적이고 체계적인, 스키체험",
+            subtitle: "국내 최고 수준의 강사진과 함께하는 전문적인 스키 및 보드 교육",
+            id: 'education',
             color: '#00D1FF',
             glow: 'rgba(0, 209, 255, 0.4)',
             accent: 'from-cyan-400 to-blue-600'
         },
         {
-            img: "/assets/images/programs/action.jpg",
-            title: "생생한 현장, 생태체험",
-            subtitle: "오감을 깨우는 생생한 체험과 전문적인 성장의 현장",
-            id: 'action',
+            tag: "Activite",
+            img: "/assets/images/programs/experience.jpg",
+            title: "오감을 만족하는, 현장체험",
+            subtitle: "감성과 인성을 키워주는 살아있는 오감 만족 현장 교육 프로그램",
+            id: 'activite',
             color: '#22C55E',
             glow: 'rgba(34, 197, 94, 0.4)',
             accent: 'from-emerald-400 to-green-700'
         },
         {
-            img: "/assets/images/programs/design.jpg",
-            title: "미래를 여는, 인성개발",
-            subtitle: "한계를 극복하며 협력의 미래를 설계하는 맞춤형 연수",
-            id: 'design',
-            color: '#8B5CF6',
-            glow: 'rgba(139, 92, 246, 0.4)',
-            accent: 'from-violet-500 to-purple-800'
+            tag: "Development",
+            img: "/assets/images/programs/action.jpg",
+            title: "한계를 극복하는, 인성개발",
+            subtitle: "짚라인과 챌린지 코스를 통해 조직의 잠재력과 한계를 돌파하는 연수",
+            id: 'development',
+            color: '#F59E0B',
+            glow: 'rgba(245, 158, 11, 0.4)',
+            accent: 'from-amber-500 to-orange-700'
         }
     ];
 
@@ -71,38 +75,38 @@ const Home = () => {
     const leadData = [
         {
             id: 'leisure',
-            title: "레포츠/래프팅",
+            title: "레포츠 & 래프팅",
             icon: Waves,
             theme: "#FF6B00",
-            description: "한탄강/동강 래프팅, 수상스키 및 전국 각지의 자연 활용 레포츠 프로그램",
+            description: "자연의 에너지를 체험하는 역동적인 레포츠 프로그램",
             coverImgUrl: "/assets/images/programs/leisure.jpg",
             delay: 0.1
         },
         {
-            id: 'experience',
-            title: "스키 & 스노우보드",
+            id: 'education',
+            title: "전문 스키 캠프",
             icon: MountainSnow,
             theme: "#00D1FF",
-            description: "전문 스키 학교 및 청소년 캠프를 통한 체력 증진과 자신감 향상 교육",
-            coverImgUrl: "/assets/images/programs/experience.jpg",
+            description: "지속적이고 체계적인 고품격 스키 교육 서비스",
+            coverImgUrl: "/assets/images/programs/skiing.jpg",
             delay: 0.2
         },
         {
-            id: 'action',
-            title: "생태/문화 체험",
+            id: 'activite',
+            title: "현장 & 생태 체험",
             icon: Leaf,
             theme: "#22C55E",
-            description: "전통 문화, 생태 탐사 및 도자기 공예 등 정서 성장을 돕는 참여형 교육",
-            coverImgUrl: "/assets/images/programs/action.jpg",
+            description: "오감을 깨우는 다양한 현장 학습 및 생태 체험",
+            coverImgUrl: "/assets/images/programs/experience.jpg",
             delay: 0.3
         },
         {
-            id: 'design',
-            title: "기획연수/인성개발",
+            id: 'development',
+            title: "챌린지 & 인성개발",
             icon: Compass,
-            theme: "#8B5CF6",
-            description: "로프 챌린지, ATV 어드벤처 등 조직 한계 극복 및 협력 강화 연수",
-            coverImgUrl: "/assets/images/programs/design.jpg",
+            theme: "#F59E0B",
+            description: "한계 극복을 통해 조직력을 강화하는 어드벤처 연수",
+            coverImgUrl: "/assets/images/programs/action.jpg",
             delay: 0.4
         }
     ];
@@ -125,15 +129,19 @@ const Home = () => {
                         style={{ backgroundImage: `url('${getImageUrl(heroSlides[currentImageIndex].img, `home_hero_${currentImageIndex}`)}')` }}
                     >
                         {isAdmin && (
-                            <div className="absolute top-32 right-8 z-50">
+                            <div className="absolute inset-0 z-30">
                                 <AdminImageManager
                                     isAdmin={isAdmin}
                                     uploadKey={`home_hero_${currentImageIndex}`}
                                 >
-                                    <button className="flex items-center gap-2 px-4 py-2 bg-black/50 hover:bg-black/70 text-white rounded-lg backdrop-blur-md border border-white/20 transition-all font-bold text-sm">
-                                        <Waves size={16} />
-                                        배경 이미지 교체
-                                    </button>
+                                    <div className="w-full h-full">
+                                        <div className="absolute top-32 right-8 z-50">
+                                            <button className="flex items-center gap-2 px-4 py-2 bg-black/50 hover:bg-black/70 text-white rounded-lg backdrop-blur-md border border-white/20 transition-all font-bold text-sm pointer-events-auto">
+                                                <Waves size={16} />
+                                                배경 이미지 교체
+                                            </button>
+                                        </div>
+                                    </div>
                                 </AdminImageManager>
                             </div>
                         )}
@@ -153,7 +161,7 @@ const Home = () => {
                             className="flex flex-col items-center"
                         >
                             <span className="text-white/60 font-black tracking-[0.5em] text-sm md:text-xl mb-8 uppercase">
-                                L.E.A.D 프로그램
+                                {heroSlides[currentImageIndex].tag}
                             </span>
                             <h1 className="text-4xl sm:text-6xl md:text-[5.5rem] font-bold tracking-tight text-white drop-shadow-2xl leading-[1.1] mb-12 uppercase px-4" style={{ textShadow: `0 0 30px ${heroSlides[currentImageIndex].glow}` }}>
                                 {heroSlides[currentImageIndex].title.split(', ').map((part, i) => (

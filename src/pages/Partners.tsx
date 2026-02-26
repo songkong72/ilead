@@ -287,21 +287,23 @@ const Partners = () => {
                                                                     isAdmin={isAdmin}
                                                                     uploadKey={`${sectionBaseKey}_${getSectionIndex(sectionBaseKey)}`}
                                                                 >
-                                                                    {sectionImages.length > 0 ? (
-                                                                        <motion.img
-                                                                            key={`${sectionBaseKey}_${getSectionIndex(sectionBaseKey)}`}
-                                                                            src={sectionImages[getSectionIndex(sectionBaseKey)]}
-                                                                            alt={section.title}
-                                                                            initial={{ opacity: 0 }}
-                                                                            animate={{ opacity: 1 }}
-                                                                            className="w-full h-full object-cover"
-                                                                        />
-                                                                    ) : (
-                                                                        <div className="flex flex-col items-center gap-2 py-20">
-                                                                            <Image size={32} className="text-gray-300" />
-                                                                            <span className="text-gray-400 text-xs font-bold">이미지 없음</span>
-                                                                        </div>
-                                                                    )}
+                                                                    <div className="w-full h-full relative">
+                                                                        {sectionImages.length > 0 ? (
+                                                                            <motion.img
+                                                                                key={`${sectionBaseKey}_${getSectionIndex(sectionBaseKey)}`}
+                                                                                src={sectionImages[getSectionIndex(sectionBaseKey)]}
+                                                                                alt={section.title}
+                                                                                initial={{ opacity: 0 }}
+                                                                                animate={{ opacity: 1 }}
+                                                                                className="absolute inset-0 w-full h-full object-cover"
+                                                                            />
+                                                                        ) : (
+                                                                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-gray-50">
+                                                                                <Image size={32} className="text-gray-300" />
+                                                                                <span className="text-gray-400 text-xs font-bold">이미지 없음</span>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
                                                                 </AdminImageManager>
 
                                                                 {/* 섹션 슬라이더 화살표 (2개 이상일 때만) */}
@@ -323,30 +325,33 @@ const Partners = () => {
                                                                 )}
                                                             </div>
 
-                                                            {/* 섹션 추가 이미지 버튼 */}
+                                                            {/* 사진 개수 표시 (왼쪽 하단) */}
+                                                            {sectionImages.length > 1 && (
+                                                                <div className="absolute bottom-3 left-3 px-2 py-0.5 bg-black/50 backdrop-blur-md rounded-md text-white text-[9px] font-black z-10 border border-white/10">
+                                                                    {getSectionIndex(sectionBaseKey) + 1} / {sectionImages.length}
+                                                                </div>
+                                                            )}
+
+                                                            {/* 섹션 추가 이미지 버튼 (오른쪽 하단) */}
                                                             {isAdmin && (
-                                                                <div className="absolute bottom-4 right-4 z-50">
+                                                                <div className="absolute bottom-3 right-3 z-20">
                                                                     <AdminImageManager
                                                                         isAdmin={isAdmin}
                                                                         variant="add"
                                                                         uploadKey={`${sectionBaseKey}_${sectionImages.length}`}
                                                                     >
-                                                                        <button className="p-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl shadow-xl transition-all hover:scale-105 active:scale-95">
-                                                                            <Image size={16} />
+                                                                        <button
+                                                                            className="p-1.5 bg-emerald-500/90 hover:bg-emerald-600 text-white rounded-lg shadow-lg transition-all hover:scale-110 active:scale-90 border border-emerald-400/50 flex items-center justify-center"
+                                                                            title="사진 추가"
+                                                                        >
+                                                                            <Plus size={14} strokeWidth={3} />
                                                                         </button>
                                                                     </AdminImageManager>
                                                                 </div>
                                                             )}
-
-                                                            {/* 사진 개수 표시 */}
-                                                            {sectionImages.length > 1 && (
-                                                                <div className="absolute bottom-4 left-4 px-3 py-1 bg-black/40 backdrop-blur-md rounded-lg text-white text-[10px] font-bold">
-                                                                    {getSectionIndex(sectionBaseKey) + 1} / {sectionImages.length}
-                                                                </div>
-                                                            )}
                                                         </div>
 
-                                                        {/* 추가 사진 미리보기 */}
+                                                        {/* 추가 사진 미리보기 (썸네일 리스트) */}
                                                         {sectionImages.length > 1 && (
                                                             <div className="flex gap-2 mt-4 overflow-x-auto pb-2 scrollbar-hide">
                                                                 {sectionImages.map((sImg: string, iIdx: number) => (
@@ -355,16 +360,12 @@ const Partners = () => {
                                                                         onClick={() => setSectionIndex(sectionBaseKey, iIdx, sectionImages.length)}
                                                                         className={`relative flex-shrink-0 transition-all ${getSectionIndex(sectionBaseKey) === iIdx ? 'ring-2 ring-emerald-500 scale-95' : 'opacity-60 hover:opacity-100'}`}
                                                                     >
-                                                                        <AdminImageManager
-                                                                            isAdmin={isAdmin}
-                                                                            uploadKey={`${sectionBaseKey}_${iIdx}`}
-                                                                        >
-                                                                            <img
-                                                                                src={sImg}
-                                                                                className="w-20 h-14 object-cover rounded-lg border border-gray-100 shadow-sm"
-                                                                                alt="preview"
-                                                                            />
-                                                                        </AdminImageManager>
+                                                                        <img
+                                                                            src={sImg || ''}
+                                                                            className="w-20 h-14 object-cover rounded-lg border border-gray-100 shadow-sm"
+                                                                            alt="preview"
+                                                                            onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/80x56/eee/999?text=No+Image'; }}
+                                                                        />
                                                                     </button>
                                                                 ))}
                                                             </div>

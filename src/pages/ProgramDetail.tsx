@@ -2,10 +2,27 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Clock, ChevronRight } from 'lucide-react';
 import { programs } from '../data/programs';
+import { useImageOverrides } from '../hooks/useImageOverrides';
+import AdminImageManager from '../components/common/AdminImageManager';
 
 const ProgramDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { isAdmin, getImageUrl } = useImageOverrides();
+
+    const scrollToSection = (sectionId: string) => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            const offset = 120; // 헤더 높이 등을 고려한 오프셋
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+    };
 
     const content = id ? programs[id] : null;
 
@@ -59,11 +76,13 @@ const ProgramDetail = () => {
 
                     {/* Hero Image Section */}
                     <div className="aspect-[21/9] w-full bg-gray-200 rounded-[3rem] overflow-hidden mb-12 shadow-3xl relative border border-black/5">
-                        <img
-                            src={content.bgImage}
-                            alt={content.title}
-                            className="w-full h-full object-cover saturate-[1.1] brightness-[0.9]"
-                        />
+                        <AdminImageManager isAdmin={isAdmin} uploadKey={`program_${id}_hero`}>
+                            <img
+                                src={getImageUrl(content.bgImage, `program_${id}_hero`)}
+                                alt={content.title}
+                                className="w-full h-full object-cover saturate-[1.1] brightness-[0.9]"
+                            />
+                        </AdminImageManager>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                         <div className="absolute bottom-12 left-12">
                             <p className="text-white/80 font-bold tracking-widest text-sm uppercase mb-2">Representative Image</p>
@@ -74,17 +93,18 @@ const ProgramDetail = () => {
                     {/* Quick Summary Section */}
                     <div className="flex flex-wrap gap-4 mb-24 justify-center">
                         {content.summary.map((item, i) => (
-                            <motion.div
+                            <motion.button
                                 key={i}
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: i * 0.1 }}
-                                className="px-8 py-4 bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center gap-3 group hover:shadow-md transition-all cursor-default"
+                                onClick={() => scrollToSection(`category-${i}`)}
+                                className="px-8 py-4 bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center gap-3 group hover:shadow-md transition-all cursor-pointer active:scale-95"
                             >
                                 <div className="w-2 h-2 rounded-full" style={{ backgroundColor: content.themeColor }} />
                                 <span className="text-xl font-bold text-gray-800 tracking-tight">{item}</span>
                                 <ChevronRight className="text-gray-300 group-hover:translate-x-1 transition-transform" size={18} />
-                            </motion.div>
+                            </motion.button>
                         ))}
                     </div>
 
@@ -131,7 +151,7 @@ const ProgramDetail = () => {
 
                         <div className="flex flex-col gap-24">
                             {content.programCategories.map((cat, idx) => (
-                                <div key={idx} className="flex flex-col gap-10">
+                                <div key={idx} id={`category-${idx}`} className="flex flex-col gap-10 scroll-mt-32">
                                     <h4 className="text-2xl font-black tracking-widest text-gray-400 uppercase border-l-4 pl-6" style={{ borderColor: content.themeColor }}>
                                         {cat.category}
                                     </h4>
@@ -164,30 +184,51 @@ const ProgramDetail = () => {
                                                 {/* Gallery Grid */}
                                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                                     {activity.galleryImages ? (
-                                                        activity.galleryImages.map((_, imgIdx) => (
-                                                            <div key={imgIdx} className="aspect-square bg-gray-50 rounded-2xl overflow-hidden relative group border border-gray-100/50">
-                                                                <div className="absolute inset-0 bg-gradient-to-br opacity-[0.03]" style={{ backgroundImage: `linear-gradient(to bottom right, ${content.themeColor}, #000)` }} />
-                                                                <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center">
-                                                                    <div className="w-10 h-10 rounded-xl mb-3 flex items-center justify-center text-white/10" style={{ backgroundColor: `${content.themeColor}11` }}>
-                                                                        <Clock size={20} />
-                                                                    </div>
-                                                                    <span className="text-[10px] text-gray-300 font-black uppercase tracking-tighter">Photo {imgIdx + 1}</span>
+                                                        activity.galleryImages.map((img, imgIdx) => {
+                                                            const uploadKey = `program_${id}_act_${idx}_${i}_gallery_${imgIdx}`;
+                                                            const displayImg = getImageUrl(img || '', uploadKey);
+
+                                                            return (
+                                                                <div key={imgIdx} className="aspect-square bg-gray-50 rounded-2xl overflow-hidden relative group border border-gray-100/50">
+                                                                    <AdminImageManager isAdmin={isAdmin} uploadKey={uploadKey}>
+                                                                        {displayImg ? (
+                                                                            <img src={displayImg} alt={`Activity ${imgIdx}`} className="w-full h-full object-cover" />
+                                                                        ) : (
+                                                                            <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center">
+                                                                                <div className="w-10 h-10 rounded-xl mb-3 flex items-center justify-center text-white/10" style={{ backgroundColor: `${content.themeColor}11` }}>
+                                                                                    <Clock size={20} />
+                                                                                </div>
+                                                                                <span className="text-[10px] text-gray-300 font-black uppercase tracking-tighter">Photo {imgIdx + 1}</span>
+                                                                            </div>
+                                                                        )}
+                                                                    </AdminImageManager>
+                                                                    {!displayImg && (
+                                                                        <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                                                            <span className="text-white text-xs font-bold bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">업로드 대기</span>
+                                                                        </div>
+                                                                    )}
                                                                 </div>
-                                                                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                                    <span className="text-white text-xs font-bold bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">준비 중</span>
-                                                                </div>
-                                                            </div>
-                                                        ))
+                                                            );
+                                                        })
                                                     ) : (
                                                         <div className="col-span-full aspect-[21/9] bg-gray-50 rounded-3xl overflow-hidden relative border border-gray-100/50">
-                                                            <div className="absolute inset-0 bg-gradient-to-br opacity-[0.03]" style={{ backgroundImage: `linear-gradient(to bottom right, ${content.themeColor}, #000)` }} />
-                                                            <div className="w-full h-full flex flex-col items-center justify-center p-12 text-center">
-                                                                <div className="w-16 h-16 rounded-2xl mb-4 flex items-center justify-center text-white/10" style={{ backgroundColor: `${content.themeColor}11` }}>
-                                                                    <Clock size={32} />
-                                                                </div>
-                                                                <span className="text-gray-300 font-bold tracking-tighter uppercase mb-2">現場 갤러리 준비 중</span>
-                                                                <p className="text-gray-400 text-sm font-medium">활동 생생함을 담은 이미지가 곧 업데이트됩니다.</p>
-                                                            </div>
+                                                            <AdminImageManager isAdmin={isAdmin} uploadKey={`program_${id}_act_${idx}_${i}_placeholder`}>
+                                                                {getImageUrl('', `program_${id}_act_${idx}_${i}_placeholder`) ? (
+                                                                    <img
+                                                                        src={getImageUrl('', `program_${id}_act_${idx}_${i}_placeholder`)}
+                                                                        alt="Activity Preview"
+                                                                        className="w-full h-full object-cover"
+                                                                    />
+                                                                ) : (
+                                                                    <div className="w-full h-full flex flex-col items-center justify-center p-12 text-center">
+                                                                        <div className="w-16 h-16 rounded-2xl mb-4 flex items-center justify-center text-white/10" style={{ backgroundColor: `${content.themeColor}11` }}>
+                                                                            <Clock size={32} />
+                                                                        </div>
+                                                                        <span className="text-gray-300 font-bold tracking-tighter uppercase mb-2">現場 갤러리 준비 중</span>
+                                                                        <p className="text-gray-400 text-sm font-medium">관리자 모드에서 실제 활동 사진을 업로드해 주세요.</p>
+                                                                    </div>
+                                                                )}
+                                                            </AdminImageManager>
                                                         </div>
                                                     )}
                                                 </div>

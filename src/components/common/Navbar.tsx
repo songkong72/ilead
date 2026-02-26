@@ -98,6 +98,12 @@ const Navbar = () => {
                             로그인
                         </button>
                         <Link
+                            to="/signup"
+                            className={`px-4 py-2 rounded-full font-bold text-sm transition-all duration-300 ${textColorClass} ${linkHoverClass}`}
+                        >
+                            회원가입
+                        </Link>
+                        <Link
                             to="/admin" // 보낸 스크린샷의 대시보드 주소
                             className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full font-black text-xs text-white transition-all backdrop-blur-sm shadow-xl"
                         >
