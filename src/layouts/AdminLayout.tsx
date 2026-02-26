@@ -10,7 +10,6 @@ import {
     X,
     ChevronRight,
     Search,
-    Home,
     ExternalLink
 } from 'lucide-react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
