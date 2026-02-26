@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, X, ChevronLeft, ChevronRight, Plus, Image, Trash2 } from 'lucide-react';
+import { CheckCircle, X, ChevronLeft, ChevronRight, Plus, Image, Trash2, Eye, EyeOff } from 'lucide-react';
 import partnersData from '../data/partners.json';
 import { useImageOverrides } from '../hooks/useImageOverrides';
 import AdminImageManager from '../components/common/AdminImageManager';
@@ -83,6 +83,11 @@ const Partners = () => {
     };
 
     const allImages = getFullImageList();
+
+    const isFacHidden = overrides[`hide_fac_${activeResort.id}`] === 'true';
+    const isProgHidden = overrides[`hide_prog_${activeResort.id}`] === 'true';
+    const isSidebarTotallyHidden = isFacHidden && isProgHidden;
+    const shouldShowSidebarArea = isAdmin || !isSidebarTotallyHidden;
 
     // 자동 슬라이드 (메인)
     useEffect(() => {
@@ -231,8 +236,8 @@ const Partners = () => {
                         </div>
 
                         {/* 상세 정보 및 섹션들 */}
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            <div className="lg:col-span-2 space-y-12">
+                        <div className={`grid grid-cols-1 ${shouldShowSidebarArea ? 'lg:grid-cols-3' : ''} gap-8`}>
+                            <div className={`${shouldShowSidebarArea ? 'lg:col-span-2' : 'lg:col-span-3'} space-y-12`}>
                                 {activeResort.description && (
                                     <div className="bg-white border border-gray-100 p-8 md:p-10 rounded-[2.5rem] shadow-sm">
                                         <AdminTextManager
@@ -567,16 +572,16 @@ const Partners = () => {
                             {/* 우측 사이드바 */}
                             <div className="space-y-6">
                                 {/* 보유 시설 카드 */}
-                                {(!overrides[`hide_fac_${activeResort.id}`] || isAdmin) && (
-                                    <div className={`bg-white border border-gray-200 p-8 rounded-[2.5rem] shadow-sm relative group/card ${overrides[`hide_fac_${activeResort.id}`] ? 'opacity-40 grayscale' : ''}`}>
+                                {(!isFacHidden || isAdmin) && (
+                                    <div className={`bg-white border border-gray-200 p-8 rounded-[2.5rem] shadow-sm relative group/card transition-all ${isFacHidden ? 'opacity-40 grayscale' : ''}`}>
                                         {isAdmin && (
                                             <div className="absolute top-6 right-6 flex gap-2 z-10">
                                                 <button
-                                                    onClick={() => setOverrideValue(`hide_fac_${activeResort.id}`, overrides[`hide_fac_${activeResort.id}`] ? '' : 'true')}
-                                                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${overrides[`hide_fac_${activeResort.id}`] ? 'bg-emerald-500 text-white' : 'bg-red-50 text-red-400 hover:bg-red-500 hover:text-white opacity-0 group-hover/card:opacity-100'}`}
-                                                    title={overrides[`hide_fac_${activeResort.id}`] ? "복구하기" : "섹션 삭제"}
+                                                    onClick={() => setOverrideValue(`hide_fac_${activeResort.id}`, isFacHidden ? '' : 'true')}
+                                                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${isFacHidden ? 'bg-gray-400 text-white' : 'bg-emerald-50 text-emerald-400 hover:bg-emerald-500 hover:text-white opacity-0 group-hover/card:opacity-100'}`}
+                                                    title={isFacHidden ? "보이기" : "숨기기"}
                                                 >
-                                                    {overrides[`hide_fac_${activeResort.id}`] ? <Plus size={14} /> : <Trash2 size={14} />}
+                                                    {isFacHidden ? <EyeOff size={14} /> : <Eye size={14} />}
                                                 </button>
                                             </div>
                                         )}
@@ -632,16 +637,16 @@ const Partners = () => {
                                 )}
 
                                 {/* 진행 프로그램 카드 */}
-                                {(!overrides[`hide_prog_${activeResort.id}`] || isAdmin) && (
-                                    <div className={`bg-white border border-gray-200 p-8 rounded-[2.5rem] shadow-sm relative group/card ${overrides[`hide_prog_${activeResort.id}`] ? 'opacity-40 grayscale' : ''}`}>
+                                {(!isProgHidden || isAdmin) && (
+                                    <div className={`bg-white border border-gray-200 p-8 rounded-[2.5rem] shadow-sm relative group/card transition-all ${isProgHidden ? 'opacity-40 grayscale' : ''}`}>
                                         {isAdmin && (
                                             <div className="absolute top-6 right-6 flex gap-2 z-10">
                                                 <button
-                                                    onClick={() => setOverrideValue(`hide_prog_${activeResort.id}`, overrides[`hide_prog_${activeResort.id}`] ? '' : 'true')}
-                                                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${overrides[`hide_prog_${activeResort.id}`] ? 'bg-emerald-500 text-white' : 'bg-red-50 text-red-400 hover:bg-red-500 hover:text-white opacity-0 group-hover/card:opacity-100'}`}
-                                                    title={overrides[`hide_prog_${activeResort.id}`] ? "복구하기" : "섹션 삭제"}
+                                                    onClick={() => setOverrideValue(`hide_prog_${activeResort.id}`, isProgHidden ? '' : 'true')}
+                                                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${isProgHidden ? 'bg-gray-400 text-white' : 'bg-blue-50 text-blue-400 hover:bg-blue-500 hover:text-white opacity-0 group-hover/card:opacity-100'}`}
+                                                    title={isProgHidden ? "보이기" : "숨기기"}
                                                 >
-                                                    {overrides[`hide_prog_${activeResort.id}`] ? <Plus size={14} /> : <Trash2 size={14} />}
+                                                    {isProgHidden ? <EyeOff size={14} /> : <Eye size={14} />}
                                                 </button>
                                             </div>
                                         )}
