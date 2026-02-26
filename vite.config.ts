@@ -10,7 +10,7 @@ export default defineConfig({
         tailwindcss(),
         VitePWA({
             registerType: 'autoUpdate',
-            includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+            includeAssets: ['favicon.svg', 'favicon.png', 'apple-touch-icon.png', 'masked-icon.svg'],
             manifest: {
                 name: 'L.E.A.D Consulting',
                 short_name: 'LEAD',
