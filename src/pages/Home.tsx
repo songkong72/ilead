@@ -133,7 +133,10 @@ const Home = () => {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 1.5, ease: "easeInOut" }}
                         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat saturate-[1.1]"
-                        style={{ backgroundImage: `url('${getImageUrl(heroSlides[currentImageIndex].img, `home_hero_${currentImageIndex}`)}')` }}
+                        style={{
+                            backgroundImage: `url('${getImageUrl(heroSlides[currentImageIndex].img, `home_hero_${currentImageIndex}`)}')`,
+                            backgroundColor: '#050505' // 이미지 로드 전/실패 시 배경색
+                        }}
                     >
                         {isAdmin && (
                             <div className="absolute inset-0 z-30">

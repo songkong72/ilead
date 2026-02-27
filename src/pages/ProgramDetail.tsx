@@ -431,27 +431,45 @@ const ActivityGallery = ({ id, idx, i, activity, isAdmin, overrides, themeColor 
                     <>
                         <button
                             onClick={(e) => { e.stopPropagation(); prevSlide(); }}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center opacity-0 group-hover/gallery:opacity-100 transition-all hover:bg-white/40 z-10"
+                            className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center opacity-0 group-hover/gallery:opacity-100 transition-all hover:bg-white/30 hover:scale-110 z-20 shadow-2xl active:scale-95"
                         >
-                            <ChevronLeft size={24} />
+                            <ChevronLeft size={32} strokeWidth={2.5} />
                         </button>
                         <button
                             onClick={(e) => { e.stopPropagation(); nextSlide(); }}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center opacity-0 group-hover/gallery:opacity-100 transition-all hover:bg-white/40 z-10"
+                            className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center opacity-0 group-hover/gallery:opacity-100 transition-all hover:bg-white/30 hover:scale-110 z-20 shadow-2xl active:scale-95"
                         >
-                            <ChevronRight size={24} />
+                            <ChevronRight size={32} strokeWidth={2.5} />
                         </button>
                     </>
                 )}
 
+                {/* Admin Add Button Overlay */}
+                {isAdmin && currentIndex < list.length && (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/gallery:opacity-100 transition-all duration-300 bg-black/5 pointer-events-none">
+                        <div className="pointer-events-auto flex gap-3">
+                            <AdminImageManager
+                                isAdmin={isAdmin}
+                                uploadKey={`${baseKey}_${list.length}`}
+                                variant="add"
+                            >
+                                <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-full font-black shadow-2xl flex items-center gap-2 hover:scale-105 transition-all text-sm border-2 border-white/20 active:scale-95">
+                                    <Plus size={20} />
+                                    <span>사진 추가</span>
+                                </button>
+                            </AdminImageManager>
+                        </div>
+                    </div>
+                )}
+
                 {/* Progress Indicators */}
                 {totalSlides > 1 && (
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2.5 z-20 bg-black/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
                         {Array.from({ length: totalSlides }).map((_, idx) => (
                             <button
                                 key={idx}
                                 onClick={() => setCurrentIndex(idx)}
-                                className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-8 bg-white' : 'w-2 bg-white/40 hover:bg-white/60'
+                                className={`h-2 rounded-full transition-all duration-500 ${idx === currentIndex ? 'w-10 bg-white shadow-[0_0_15px_rgba(255,255,255,0.5)]' : 'w-2 bg-white/30 hover:bg-white/50'
                                     }`}
                             />
                         ))}
@@ -460,7 +478,7 @@ const ActivityGallery = ({ id, idx, i, activity, isAdmin, overrides, themeColor 
             </div>
 
             {/* Slide Information Badge */}
-            <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/30 backdrop-blur-md text-white text-[10px] font-black tracking-widest uppercase z-10">
+            <div className="absolute top-6 right-6 px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-md text-white text-[11px] font-black tracking-[0.2em] uppercase z-20 border border-white/10 shadow-xl">
                 {currentIndex + 1} / {totalSlides}
             </div>
         </div>

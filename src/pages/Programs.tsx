@@ -4,6 +4,7 @@ import { Waves, MountainSnow, Leaf, Compass, ArrowRight } from 'lucide-react';
 import { programs } from '../data/programs';
 import { useImageOverrides } from '../hooks/useImageOverrides';
 import AdminImageManager from '../components/common/AdminImageManager';
+import AdminTextManager from '../components/common/AdminTextManager';
 
 const programCards = [
     {
@@ -42,7 +43,7 @@ const programCards = [
 
 const Programs = () => {
     const navigate = useNavigate();
-    const { isAdmin, getImageUrl } = useImageOverrides();
+    const { isAdmin, getImageUrl, overrides } = useImageOverrides();
 
     return (
         <div className="min-h-screen bg-white">
@@ -79,15 +80,20 @@ const Programs = () => {
                         사업영역
                     </motion.h1>
                     <div className="h-1.5 w-24 bg-gradient-to-r from-emerald-500 to-transparent rounded-full mb-8" />
-                    <motion.p
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
                         className="text-white/90 text-lg md:text-2xl max-w-3xl leading-relaxed font-medium"
                     >
-                        L.E.A.D는 레저, 체험, 액션, 디자인의 4가지 핵심 사업 영역을 통해
-                        최상의 커리큘럼을 제공합니다.
-                    </motion.p>
+                        <AdminTextManager
+                            isAdmin={isAdmin}
+                            contentKey="programs_main_description"
+                            text={overrides.programs_main_description || "L.E.A.D는 전문적인 레저 교육과 맞춤형 단체 연수 프로그램을 통해, \n최상의 가치와 차별화된 성장을 제안하는 선도적인 교육 컨설팅 그룹입니다."}
+                            as="p"
+                            multiline={true}
+                        />
+                    </motion.div>
                 </div>
             </section>
 

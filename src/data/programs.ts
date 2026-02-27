@@ -198,7 +198,28 @@ export const programs: Record<string, ProgramContent> = {
                 activities: [
                     {
                         name: "지혜의 역사 탐방",
-                        description: "안보 체험(DMZ)부터 유적지 답사까지, 현장에서 직접 보고 듣는 실감 나는 역사 교육이 진행됩니다."
+                        description: "안보 체험(DMZ)부터 유적지 답사까지, 현장에서 직접 보고 듣는 실감 나는 역사 교육이 진행됩니다.",
+                        galleryImages: ["DMZ 안보견학", "유적지 답사", "박물관 관람"]
+                    }
+                ]
+            },
+            {
+                category: "도예 체험",
+                activities: [
+                    {
+                        name: "흙 속의 예술, 도예교실",
+                        description: "전문 도예 강사와 함께 직접 흙을 만지고 빚으며 창의력을 발휘합니다. 물레 체험부터 채색까지 나만의 소중한 작품을 완성하는 과정입니다.",
+                        galleryImages: ["물레 체험", "핸드페인팅", "작품 완성"]
+                    }
+                ]
+            },
+            {
+                category: "천연 염색 체험",
+                activities: [
+                    {
+                        name: "자연의 색을 입히다",
+                        description: "쪽, 황토, 양파껍질 등 자연에서 얻은 재료로 원단을 염색합니다. 화학 색소가 아닌 자연의 아름다움을 이해하고 예술적 감수성을 키우는 프로그램입니다.",
+                        galleryImages: ["천연 염료 추출", "홀치기 염색", "원단 건조"]
                     }
                 ]
             }
