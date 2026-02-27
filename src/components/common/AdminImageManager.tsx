@@ -9,9 +9,10 @@ interface AdminImageManagerProps {
     uploadKey: string;
     variant?: 'replace' | 'add';
     isDefault?: boolean;
+    showDelete?: boolean;
 }
 
-const AdminImageManager: React.FC<AdminImageManagerProps> = ({ children, isAdmin, uploadKey, variant = 'replace', isDefault = false }) => {
+const AdminImageManager: React.FC<AdminImageManagerProps> = ({ children, isAdmin, uploadKey, variant = 'replace', isDefault = false, showDelete = true }) => {
     const [isDragOver, setIsDragOver] = useState(false);
     const [, setDragCounter] = useState(0);
     const [isUploading, setIsUploading] = useState(false);
@@ -208,13 +209,15 @@ const AdminImageManager: React.FC<AdminImageManagerProps> = ({ children, isAdmin
                             }}
                         />
                     </label>
-                    <button
-                        onClick={handleDelete}
-                        className="p-1.5 bg-red-500/80 hover:bg-red-600 text-white rounded-lg shadow-lg transition-all hover:scale-105 active:scale-95 pointer-events-auto border border-red-400/50"
-                        title="삭제"
-                    >
-                        <Trash2 size={12} />
-                    </button>
+                    {showDelete && (
+                        <button
+                            onClick={handleDelete}
+                            className="p-1.5 bg-red-500/80 hover:bg-red-600 text-white rounded-lg shadow-lg transition-all hover:scale-105 active:scale-95 pointer-events-auto border border-red-400/50"
+                            title="삭제"
+                        >
+                            <Trash2 size={12} />
+                        </button>
+                    )}
                 </div>
             )}
         </div >

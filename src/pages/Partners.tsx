@@ -437,20 +437,24 @@ const Partners = () => {
                                                                                             <div key={iIdx} className="flex-shrink-0 w-[240px] md:w-[280px] snap-start relative group/card">
                                                                                                 {isAdmin && (
                                                                                                     <button
-                                                                                                        onClick={async () => {
-                                                                                                            if (window.confirm('이 항목을 삭제하시겠습니까? (마지막 항목이 숨겨집니다)')) {
+                                                                                                        onClick={async (e) => {
+                                                                                                            e.preventDefault();
+                                                                                                            e.stopPropagation();
+                                                                                                            if (window.confirm('이 항목을 삭제하시겠습니까?')) {
                                                                                                                 const nextCount = Math.max(0, count - 1);
                                                                                                                 await setOverrideValue(countKey, nextCount.toString());
                                                                                                             }
                                                                                                         }}
-                                                                                                        className="absolute -top-2 -right-2 z-30 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 transition-colors opacity-0 group-hover/card:opacity-100"
+                                                                                                        className="absolute -top-3 -right-3 z-[1001] w-10 h-10 bg-black text-white rounded-full flex items-center justify-center shadow-2xl hover:bg-red-600 transition-all hover:scale-110 active:scale-95 border-2 border-white"
+                                                                                                        title="항목 삭제"
                                                                                                     >
-                                                                                                        <Trash2 size={14} />
+                                                                                                        <Trash2 size={16} />
                                                                                                     </button>
                                                                                                 )}
                                                                                                 <AdminImageManager
                                                                                                     isAdmin={isAdmin}
                                                                                                     uploadKey={itemKey}
+                                                                                                    showDelete={false}
                                                                                                 >
                                                                                                     <div
                                                                                                         className={`group/item relative flex flex-col bg-white rounded-2xl border border-gray-200 shadow-sm transition-all hover:shadow-xl hover:-translate-y-2 overflow-hidden ${itemImg ? 'w-full' : 'flex-row items-center px-4 py-2 h-fit min-h-[100px]'}`}
@@ -497,16 +501,21 @@ const Partners = () => {
                                                                                         );
                                                                                     })}
                                                                                     {isAdmin && (
-                                                                                        <div className="flex-shrink-0 flex items-center justify-center w-[150px] snap-start">
+                                                                                        <div className="flex-shrink-0 w-[240px] md:w-[280px] snap-start mb-8">
                                                                                             <button
                                                                                                 onClick={async () => {
                                                                                                     const nextCount = count + 1;
                                                                                                     await setOverrideValue(countKey, nextCount.toString());
                                                                                                 }}
-                                                                                                className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center hover:bg-emerald-100 transition-colors border-2 border-dashed border-emerald-200 border-spacing-4"
-                                                                                                title="새 항목 추가"
+                                                                                                className="w-full aspect-[4/3] bg-gray-50/50 border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center gap-4 text-gray-300 hover:text-emerald-500 hover:border-emerald-200 hover:bg-emerald-50/30 transition-all group/add shadow-sm hover:shadow-md"
                                                                                             >
-                                                                                                <Plus size={24} />
+                                                                                                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center group-hover/add:bg-emerald-50 transition-colors border border-gray-100 group-hover/add:border-emerald-100 shadow-sm">
+                                                                                                    <Plus size={32} strokeWidth={1.5} />
+                                                                                                </div>
+                                                                                                <div className="text-center">
+                                                                                                    <span className="text-sm font-black tracking-tight block">새 항목 추가</span>
+                                                                                                    <span className="text-[10px] font-medium opacity-60">클릭하여 추가</span>
+                                                                                                </div>
                                                                                             </button>
                                                                                         </div>
                                                                                     )}
