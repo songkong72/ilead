@@ -24,7 +24,8 @@ const AdminLayout = () => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (!user) {
+            const isAdmin = localStorage.getItem('is_lead_admin') === 'true';
+            if (!user || !isAdmin) {
                 navigate('/admin/login');
             } else {
                 setIsCheckingAuth(false);

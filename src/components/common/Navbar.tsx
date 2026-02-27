@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
-    const { openLogin, user, logout } = useAuth();
+    const { openLogin, user, logout, isAdmin } = useAuth();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [hoveredMenu, setHoveredMenu] = useState<string | null>(null);
@@ -22,6 +22,16 @@ const Navbar = () => {
     useEffect(() => {
         setIsMobileMenuOpen(false);
     }, [location.pathname]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 1024) {
+                setIsMobileMenuOpen(false);
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const navLinks = [
         { name: '회사소개', path: '/about', color: 'bg-sky-600/95', mobileBg: 'bg-sky-700' },
@@ -118,12 +128,14 @@ const Navbar = () => {
                                 </Link>
                             </>
                         )}
-                        <Link
-                            to="/admin"
-                            className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full font-black text-xs text-white transition-all backdrop-blur-sm shadow-xl ml-2"
-                        >
-                            관리자 페이지
-                        </Link>
+                        {isAdmin && (
+                            <Link
+                                to="/admin"
+                                className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full font-black text-xs text-white transition-all backdrop-blur-sm shadow-xl ml-2"
+                            >
+                                관리자 페이지
+                            </Link>
+                        )}
                     </div>
                 </nav>
 
@@ -170,7 +182,7 @@ const Navbar = () => {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: '100%' }}
                             transition={{ type: 'tween', duration: 0.3 }}
-                            className={`fixed top-0 right-0 w-64 h-screen ${mobileMenuBg} shadow-2xl flex flex-col pt-24 px-8 gap-6 z-40`}
+                            className={`fixed top-0 right-0 w-64 h-screen ${mobileMenuBg} shadow-2xl flex lg:hidden flex-col pt-24 px-8 gap-6 z-40`}
                         >
                             {navLinks.map((link) => (
                                 <Link
@@ -182,6 +194,16 @@ const Navbar = () => {
                                     {link.name}
                                 </Link>
                             ))}
+                            {isAdmin && (
+                                <div className="mt-4 pt-6 border-t border-white/10">
+                                    <Link
+                                        to="/admin"
+                                        className="flex items-center justify-center gap-2 py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl font-black text-sm text-white transition-all backdrop-blur-sm shadow-xl"
+                                    >
+                                        관리자 페이지
+                                    </Link>
+                                </div>
+                            )}
                         </motion.div>
                     )}
                 </AnimatePresence>

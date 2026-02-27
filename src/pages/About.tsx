@@ -44,23 +44,23 @@ const About = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
                     {[
                         {
-                            title: "Leisure",
-                            desc: "단순한 휴식을 넘어선 프리미엄 레저 큐레이션",
+                            title: "Leports",
+                            desc: "대자연을 배경으로 도전과 모험을 즐기며 즐겁고 짜릿한 추억을 선사하는 고품격 레저 큐레이션 프로그램",
                             color: "bg-blue-100"
                         },
                         {
-                            title: "Experience",
-                            desc: "일상을 벗어난 특별한 감각적 체험 통찰력 제공",
+                            title: "Education",
+                            desc: "무한한 잠재력과 소질을 개발하여 자아를 완성시켜 나가는 지속적이고 체계적인 전문 교육 프로그램",
                             color: "bg-purple-100"
                         },
                         {
-                            title: "Action",
-                            desc: "현실적이고 즉각적인 맞춤형 솔루션 실행",
+                            title: "Activite",
+                            desc: "오감을 만족시키는 체험 활동을 통해 감성과 인성을 계발하고 우리 문화의 소양과 창의성을 키우는 선도적 프로그램",
                             color: "bg-orange-100"
                         },
                         {
-                            title: "Design",
-                            desc: "더 나은 내일을 위한 라이프 매니지먼트 설계",
+                            title: "Development",
+                            desc: "단체의 성격에 맞춘 양방향 프로그램을 통해 조직력을 강화하고 공동 과제 해결로 갈등 해소와 내적 성장을 돕는 맞춤형 프로그램",
                             color: "bg-emerald-100"
                         }
                     ].map((item, i) => (

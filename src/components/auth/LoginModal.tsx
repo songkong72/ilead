@@ -37,13 +37,25 @@ const LoginModal = () => {
         setIsLoading(true);
         setError(null);
 
+        const trimmedId = formData.email.trim();
+        const adminEnvId = import.meta.env.VITE_ADMIN_ID || 'admin';
+
+        // 아이디가 이메일 형식이 아니면 기본 도메인 추가 (@ilead.com)
+        const email = trimmedId.includes('@') ? trimmedId : `${trimmedId}@ilead.com`;
+
         try {
-            await signInWithEmailAndPassword(auth, formData.email, formData.password);
+            await signInWithEmailAndPassword(auth, email, formData.password);
+
+            // 관리자 계정인지 확인하여 플래그 설정
+            if (trimmedId === adminEnvId || email === `${adminEnvId}@ilead.com`) {
+                localStorage.setItem('is_lead_admin', 'true');
+            }
+
             closeLogin();
             navigate('/');
         } catch (err: any) {
             console.error('Email Login Error:', err);
-            setError('이메일 또는 비밀번호가 올바르지 않습니다.');
+            setError('이메일(아이디) 또는 비밀번호가 올바르지 않습니다.');
         } finally {
             setIsLoading(false);
         }
@@ -152,11 +164,11 @@ const LoginModal = () => {
                             <div className="space-y-2 mb-4 md:mb-6">
                                 <div className="relative">
                                     <input
-                                        type="email"
+                                        type="text"
                                         required
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        placeholder="이메일"
+                                        placeholder="이메일 또는 관리자 아이디"
                                         className="w-full h-13 md:h-16 px-6 rounded-xl bg-gray-50 border border-gray-100 focus:bg-white focus:border-blue-500 outline-none transition-all placeholder:text-gray-400 font-medium text-sm md:text-base"
                                     />
                                 </div>
