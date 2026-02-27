@@ -87,8 +87,8 @@ const Partners = () => {
     const isSidebarTotallyHidden = isFacHidden && isProgHidden;
     const shouldShowSidebarArea = isAdmin || !isSidebarTotallyHidden;
 
-    // 단일 이미지 체제이므로 항상 첫 번째 이미지만 사용
-    const allImages = getFullImageList().slice(0, 1);
+    // 모든 이미지 사용 (관리자가 여러 장 등록 가능하도록)
+    const allImages = getFullImageList();
 
     const handleTabChange = (idx: number) => {
         setActiveTab(idx);
@@ -184,11 +184,56 @@ const Partners = () => {
                                             </div>
                                         )}
                                     </AnimatePresence>
-
                                 </div>
                             </AdminImageManager>
 
-                            {/* 관리자: 이미지 추가 버튼 제거 (1개의 이미지만 권장하므로) */}
+                            {/* 화살표 네비게이션 (2개 이상일 때) */}
+                            {allImages.length > 1 && (
+                                <>
+                                    <button
+                                        onClick={() => setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length)}
+                                        className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white rounded-full transition-all opacity-0 group-hover/slider:opacity-100 z-10"
+                                    >
+                                        <ChevronLeft size={32} />
+                                    </button>
+                                    <button
+                                        onClick={() => setCurrentImageIndex((prev) => (prev + 1) % allImages.length)}
+                                        className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-white/20 hover:bg-white/40 backdrop-blur-md text-white rounded-full transition-all opacity-0 group-hover/slider:opacity-100 z-10"
+                                    >
+                                        <ChevronRight size={32} />
+                                    </button>
+
+                                    {/* 인디케이터 */}
+                                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                                        {allImages.map((_, idx) => (
+                                            <button
+                                                key={idx}
+                                                onClick={() => setCurrentImageIndex(idx)}
+                                                className={`h-2 transition-all rounded-full ${currentImageIndex === idx ? 'w-8 bg-white shadow-lg' : 'w-2 bg-white/40 hover:bg-white/60'}`}
+                                            />
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+
+                            {/* 관리자: 이미지 추가 버튼 */}
+                            {isAdmin && (
+                                <div className="absolute bottom-6 right-10 z-20">
+                                    <AdminImageManager
+                                        isAdmin={isAdmin}
+                                        variant="add"
+                                        uploadKey={`partners_resort_${activeResort.id}_main_${allImages.length}`}
+                                    >
+                                        <button
+                                            className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl shadow-xl transition-all hover:scale-105 active:scale-95 border border-emerald-400 flex items-center gap-2 font-black text-sm"
+                                            title="대표 사진 추가"
+                                        >
+                                            <Plus size={18} strokeWidth={3} />
+                                            <span>사진 추가</span>
+                                        </button>
+                                    </AdminImageManager>
+                                </div>
+                            )}
                         </div>
 
                         {/* 상세 정보 및 섹션들 */}
