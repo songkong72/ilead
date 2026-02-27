@@ -410,11 +410,15 @@ const ActivityGallery = ({ id, idx, i, activity, isAdmin, overrides, themeColor 
                             </AdminImageManager>
                         ) : (
                             <div className="w-full h-full flex items-center justify-center bg-white">
-                                <AdminImageManager isAdmin={isAdmin} uploadKey={`${baseKey}_${list.length}`}>
-                                    <div className="flex flex-col items-center justify-center text-gray-300 hover:text-emerald-500 transition-colors cursor-pointer p-12 text-center">
-                                        <Plus size={48} strokeWidth={1} className="mb-4" />
-                                        <h4 className="text-lg font-bold text-gray-900 mb-1">Add Detail Photo</h4>
-                                        <p className="text-sm font-medium text-gray-400">활동의 생생한 순간을 추가 기록하세요.</p>
+                                <AdminImageManager isAdmin={isAdmin} uploadKey={`${baseKey}_${list.length}`} showDelete={false}>
+                                    <div className="flex flex-col items-center justify-center text-gray-300 hover:text-emerald-500 transition-all cursor-pointer p-12 text-center group/add w-full h-full bg-white/50 border-2 border-dashed border-gray-100 rounded-3xl gap-4">
+                                        <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center group-hover/add:bg-emerald-50 transition-colors border border-gray-100 group-hover/add:border-emerald-100">
+                                            <Plus size={32} strokeWidth={1.5} />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <h4 className="text-xl font-black text-gray-900 tracking-tight">Add Detail Photo</h4>
+                                            <p className="text-sm font-medium text-gray-400">활동의 생생한 순간을 추가 기록하세요.</p>
+                                        </div>
                                     </div>
                                 </AdminImageManager>
                             </div>
