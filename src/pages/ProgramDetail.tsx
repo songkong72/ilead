@@ -1,14 +1,21 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Clock, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, Clock, ChevronRight, Plus, ChevronLeft } from 'lucide-react';
+import { useState } from 'react';
 import { programs } from '../data/programs';
 import { useImageOverrides } from '../hooks/useImageOverrides';
 import AdminImageManager from '../components/common/AdminImageManager';
+import AdminTextManager from '../components/common/AdminTextManager';
+import AdminToolbar from '../components/common/AdminToolbar';
 
 const ProgramDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { isAdmin, getImageUrl } = useImageOverrides();
+    const { isAdmin, overrides, getImageUrl, logout } = useImageOverrides();
+
+    const t = (defaultText: string, key: string) => {
+        return overrides[key] || defaultText;
+    };
 
     const scrollToSection = (sectionId: string) => {
         const element = document.getElementById(sectionId);
@@ -41,6 +48,7 @@ const ProgramDetail = () => {
 
     return (
         <div className="min-h-screen bg-[#fafafa] pt-32 pb-40">
+            {isAdmin && <AdminToolbar onLogout={logout} />}
             <div className="container mx-auto px-6 max-w-6xl">
                 {/* Floating Navigation */}
                 <div className="sticky top-[100px] z-50 pointer-events-none mb-10">
@@ -64,13 +72,22 @@ const ProgramDetail = () => {
                             L.E.A.D DISCOVERY
                         </span>
                         <h1 className="text-5xl md:text-8xl font-bold text-gray-900 mb-10 tracking-tight leading-[1.1]">
-                            {content.title}
+                            <AdminTextManager
+                                isAdmin={isAdmin}
+                                contentKey={`program_${id}_title`}
+                                text={t(content.title, `program_${id}_title`)}
+                            />
                         </h1>
                         <div className="flex flex-col md:flex-row md:items-center gap-12">
                             <div className="w-24 h-2 rounded-full" style={{ backgroundColor: content.themeColor, boxShadow: `0 0 20px ${content.themeColor}44` }} />
-                            <p className="text-2xl md:text-3xl font-medium text-gray-500 tracking-tight leading-snug max-w-3xl">
-                                {content.intro}
-                            </p>
+                            <div className="text-2xl md:text-3xl font-medium text-gray-500 tracking-tight leading-snug max-w-3xl">
+                                <AdminTextManager
+                                    isAdmin={isAdmin}
+                                    contentKey={`program_${id}_intro`}
+                                    text={t(content.intro, `program_${id}_intro`)}
+                                    as="p"
+                                />
+                            </div>
                         </div>
                     </div>
 
@@ -86,7 +103,13 @@ const ProgramDetail = () => {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                         <div className="absolute bottom-12 left-12">
                             <p className="text-white/80 font-bold tracking-widest text-sm uppercase mb-2">Representative Image</p>
-                            <h3 className="text-white text-3xl font-bold">{content.title}</h3>
+                            <h3 className="text-white text-3xl font-bold">
+                                <AdminTextManager
+                                    isAdmin={isAdmin}
+                                    contentKey={`program_${id}_title`}
+                                    text={t(content.title, `program_${id}_title`)}
+                                />
+                            </h3>
                         </div>
                     </div>
 
@@ -102,7 +125,13 @@ const ProgramDetail = () => {
                                 className="px-8 py-4 bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center gap-3 group hover:shadow-md transition-all cursor-pointer active:scale-95"
                             >
                                 <div className="w-2 h-2 rounded-full" style={{ backgroundColor: content.themeColor }} />
-                                <span className="text-xl font-bold text-gray-800 tracking-tight">{item}</span>
+                                <div className="text-xl font-bold text-gray-800 tracking-tight">
+                                    <AdminTextManager
+                                        isAdmin={isAdmin}
+                                        contentKey={`program_${id}_summary_${i}`}
+                                        text={t(item, `program_${id}_summary_${i}`)}
+                                    />
+                                </div>
                                 <ChevronRight className="text-gray-300 group-hover:translate-x-1 transition-transform" size={18} />
                             </motion.button>
                         ))}
@@ -120,8 +149,22 @@ const ProgramDetail = () => {
                                     <goal.icon size={32} strokeWidth={1.5} />
                                 </div>
                                 <div>
-                                    <h4 className="text-2xl font-bold text-gray-900 mb-3">{goal.title}</h4>
-                                    <p className="text-gray-500 font-medium leading-relaxed">{goal.description}</p>
+                                    <h4 className="text-2xl font-bold text-gray-900 mb-3">
+                                        <AdminTextManager
+                                            isAdmin={isAdmin}
+                                            contentKey={`program_${id}_goal_${idx}_title`}
+                                            text={t(goal.title, `program_${id}_goal_${idx}_title`)}
+                                        />
+                                    </h4>
+                                    <div className="text-gray-500 font-medium leading-relaxed">
+                                        <AdminTextManager
+                                            isAdmin={isAdmin}
+                                            contentKey={`program_${id}_goal_${idx}_desc`}
+                                            text={t(goal.description, `program_${id}_goal_${idx}_desc`)}
+                                            as="p"
+                                            multiline={true}
+                                        />
+                                    </div>
                                 </div>
                             </motion.div>
                         ))}
@@ -133,12 +176,18 @@ const ProgramDetail = () => {
                             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-10 tracking-tight">
                                 전문성을 지향하는 <span style={{ color: content.themeColor }}>최적의 커리큘럼</span>
                             </h2>
-                            <p className="text-xl md:text-2xl text-gray-600 leading-relaxed font-medium">
-                                {content.description}
-                                <br /><br />
+                            <div className="text-xl md:text-2xl text-gray-600 leading-relaxed font-medium">
+                                <AdminTextManager
+                                    isAdmin={isAdmin}
+                                    contentKey={`program_${id}_description`}
+                                    text={t(content.description, `program_${id}_description`)}
+                                    as="p"
+                                    multiline={true}
+                                />
+                                <br />
                                 참가자들의 몰입도를 극대화하고 실질적인 변화를 이끌어내는,
                                 현장 중심의 교육과 잊지 못할 경험을 선사합니다.
-                            </p>
+                            </div>
                         </div>
                     </div>
 
@@ -153,7 +202,11 @@ const ProgramDetail = () => {
                             {content.programCategories.map((cat, idx) => (
                                 <div key={idx} id={`category-${idx}`} className="flex flex-col gap-10 scroll-mt-32">
                                     <h4 className="text-2xl font-black tracking-widest text-gray-400 uppercase border-l-4 pl-6" style={{ borderColor: content.themeColor }}>
-                                        {cat.category}
+                                        <AdminTextManager
+                                            isAdmin={isAdmin}
+                                            contentKey={`program_${id}_cat_${idx}_name`}
+                                            text={t(cat.category, `program_${id}_cat_${idx}_name`)}
+                                        />
                                     </h4>
                                     <div className="flex flex-col gap-16">
                                         {cat.activities.map((activity, i) => (
@@ -168,69 +221,44 @@ const ProgramDetail = () => {
                                                 <div className="flex flex-col md:flex-row gap-10 items-start">
                                                     <div className="flex flex-col gap-4 min-w-[280px]">
                                                         <div className="inline-flex px-4 py-1.5 rounded-full text-xs font-black tracking-widest text-white self-start" style={{ backgroundColor: content.themeColor }}>
-                                                            {cat.category.split('(')[0].trim()}
+                                                            <AdminTextManager
+                                                                isAdmin={isAdmin}
+                                                                contentKey={`program_${id}_cat_${idx}_badge`}
+                                                                text={t(t(cat.category, `program_${id}_cat_${idx}_name`).split('(')[0].trim(), `program_${id}_cat_${idx}_badge`)}
+                                                            />
                                                         </div>
                                                         <h5 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                                                            {activity.name}
+                                                            <AdminTextManager
+                                                                isAdmin={isAdmin}
+                                                                contentKey={`program_${id}_cat_${idx}_act_${i}_name`}
+                                                                text={t(activity.name, `program_${id}_cat_${idx}_act_${i}_name`)}
+                                                            />
                                                         </h5>
                                                     </div>
                                                     <div className="flex-1">
-                                                        <p className="text-xl text-gray-500 font-medium leading-relaxed">
-                                                            {activity.description}
-                                                        </p>
+                                                        <div className="text-xl text-gray-500 font-medium leading-relaxed">
+                                                            <AdminTextManager
+                                                                isAdmin={isAdmin}
+                                                                contentKey={`program_${id}_cat_${idx}_act_${i}_desc`}
+                                                                text={t(activity.description, `program_${id}_cat_${idx}_act_${i}_desc`)}
+                                                                as="p"
+                                                                multiline={true}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 {/* Gallery Grid */}
-                                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                                    {activity.galleryImages ? (
-                                                        activity.galleryImages.map((img, imgIdx) => {
-                                                            const uploadKey = `program_${id}_act_${idx}_${i}_gallery_${imgIdx}`;
-                                                            const displayImg = getImageUrl(img || '', uploadKey);
-
-                                                            return (
-                                                                <div key={imgIdx} className="aspect-square bg-gray-50 rounded-2xl overflow-hidden relative group border border-gray-100/50">
-                                                                    <AdminImageManager isAdmin={isAdmin} uploadKey={uploadKey}>
-                                                                        {displayImg ? (
-                                                                            <img src={displayImg} alt={`Activity ${imgIdx}`} className="w-full h-full object-cover" />
-                                                                        ) : (
-                                                                            <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center">
-                                                                                <div className="w-10 h-10 rounded-xl mb-3 flex items-center justify-center text-white/10" style={{ backgroundColor: `${content.themeColor}11` }}>
-                                                                                    <Clock size={20} />
-                                                                                </div>
-                                                                                <span className="text-[10px] text-gray-300 font-black uppercase tracking-tighter">Photo {imgIdx + 1}</span>
-                                                                            </div>
-                                                                        )}
-                                                                    </AdminImageManager>
-                                                                    {!displayImg && (
-                                                                        <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                                                            <span className="text-white text-xs font-bold bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">업로드 대기</span>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            );
-                                                        })
-                                                    ) : (
-                                                        <div className="col-span-full aspect-[21/9] bg-gray-50 rounded-3xl overflow-hidden relative border border-gray-100/50">
-                                                            <AdminImageManager isAdmin={isAdmin} uploadKey={`program_${id}_act_${idx}_${i}_placeholder`}>
-                                                                {getImageUrl('', `program_${id}_act_${idx}_${i}_placeholder`) ? (
-                                                                    <img
-                                                                        src={getImageUrl('', `program_${id}_act_${idx}_${i}_placeholder`)}
-                                                                        alt="Activity Preview"
-                                                                        className="w-full h-full object-cover"
-                                                                    />
-                                                                ) : (
-                                                                    <div className="w-full h-full flex flex-col items-center justify-center p-12 text-center">
-                                                                        <div className="w-16 h-16 rounded-2xl mb-4 flex items-center justify-center text-white/10" style={{ backgroundColor: `${content.themeColor}11` }}>
-                                                                            <Clock size={32} />
-                                                                        </div>
-                                                                        <span className="text-gray-300 font-bold tracking-tighter uppercase mb-2">現場 갤러리 준비 중</span>
-                                                                        <p className="text-gray-400 text-sm font-medium">관리자 모드에서 실제 활동 사진을 업로드해 주세요.</p>
-                                                                    </div>
-                                                                )}
-                                                            </AdminImageManager>
-                                                        </div>
-                                                    )}
+                                                <div className="w-full">
+                                                    <ActivityGallery
+                                                        id={id || ""}
+                                                        idx={idx}
+                                                        i={i}
+                                                        activity={activity}
+                                                        isAdmin={isAdmin}
+                                                        overrides={overrides}
+                                                        themeColor={content.themeColor}
+                                                    />
                                                 </div>
                                             </motion.div>
                                         ))}
@@ -261,13 +289,31 @@ const ProgramDetail = () => {
                                             <div className="w-12 h-12 rounded-full border-4 border-white shadow-xl flex items-center justify-center text-white shrink-0" style={{ backgroundColor: content.themeColor }}>
                                                 <div className="w-2 h-2 bg-white rounded-full" />
                                             </div>
-                                            <span className="text-xl font-black text-gray-400 tracking-tighter tabular-nums whitespace-nowrap">
-                                                {slot.time}
-                                            </span>
+                                            <div className="text-xl font-black text-gray-400 tracking-tighter tabular-nums whitespace-nowrap">
+                                                <AdminTextManager
+                                                    isAdmin={isAdmin}
+                                                    contentKey={`program_${id}_sched_${idx}_time`}
+                                                    text={t(slot.time, `program_${id}_sched_${idx}_time`)}
+                                                />
+                                            </div>
                                         </div>
                                         <div>
-                                            <h5 className="text-3xl font-bold text-gray-900 mb-3">{slot.activity}</h5>
-                                            <p className="text-xl text-gray-500 font-medium">{slot.description}</p>
+                                            <h5 className="text-3xl font-bold text-gray-900 mb-3">
+                                                <AdminTextManager
+                                                    isAdmin={isAdmin}
+                                                    contentKey={`program_${id}_sched_${idx}_act`}
+                                                    text={t(slot.activity, `program_${id}_sched_${idx}_act`)}
+                                                />
+                                            </h5>
+                                            <div className="text-xl text-gray-500 font-medium">
+                                                <AdminTextManager
+                                                    isAdmin={isAdmin}
+                                                    contentKey={`program_${id}_sched_${idx}_desc`}
+                                                    text={t(slot.description || "", `program_${id}_sched_${idx}_desc`)}
+                                                    as="p"
+                                                    multiline={true}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
@@ -294,6 +340,124 @@ const ProgramDetail = () => {
                         </motion.div>
                     </div>
                 </motion.div>
+            </div>
+        </div>
+    );
+};
+
+const ActivityGallery = ({ id, idx, i, activity, isAdmin, overrides, themeColor }: any) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const baseKey = `program_${id}_act_${idx}_${i}_gallery`;
+
+    const defaultImages = activity.galleryImages || [];
+    const list = defaultImages.map((img: any, imgIdx: number) => {
+        const key = `${baseKey}_${imgIdx}`;
+        const over = overrides[key];
+        if (over) return over;
+        if (img && (img.startsWith('/') || img.startsWith('http'))) return img;
+        return "";
+    }).filter((url: string) => url !== "");
+
+    let extraIdx = defaultImages.length;
+    while (overrides[`${baseKey}_${extraIdx}`]) {
+        list.push(overrides[`${baseKey}_${extraIdx}`]);
+        extraIdx++;
+    }
+
+    const totalSlides = list.length + (isAdmin ? 1 : 0);
+
+    const nextSlide = () => {
+        setCurrentIndex((prev) => (prev + 1) % totalSlides);
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+    };
+
+    if (totalSlides === 0 && !isAdmin) {
+        return (
+            <div className="aspect-[21/9] bg-gray-50 rounded-3xl overflow-hidden relative border border-gray-100/50">
+                <div className="w-full h-full flex flex-col items-center justify-center p-12 text-center">
+                    <div className="w-16 h-16 rounded-2xl mb-4 flex items-center justify-center text-white/10" style={{ backgroundColor: `${themeColor}11` }}>
+                        <Clock size={32} />
+                    </div>
+                    <span className="text-gray-300 font-bold tracking-tighter uppercase mb-2">現場 갤러리 준비 중</span>
+                    <p className="text-gray-400 text-sm font-medium">관리자 모드에서 실제 활동 사진을 업로드해 주세요.</p>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="relative group/gallery w-full">
+            <div className="overflow-hidden rounded-3xl bg-gray-50 border border-gray-100/50 shadow-sm aspect-video md:aspect-[21/9] relative">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentIndex}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.4, ease: "circOut" }}
+                        className="w-full h-full"
+                    >
+                        {currentIndex < list.length ? (
+                            <AdminImageManager isAdmin={isAdmin} uploadKey={`${baseKey}_${currentIndex}`}>
+                                <img
+                                    src={list[currentIndex]}
+                                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                                    alt="Activity"
+                                />
+                            </AdminImageManager>
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-white">
+                                <AdminImageManager isAdmin={isAdmin} uploadKey={`${baseKey}_${list.length}`}>
+                                    <div className="flex flex-col items-center justify-center text-gray-300 hover:text-emerald-500 transition-colors cursor-pointer p-12 text-center">
+                                        <Plus size={48} strokeWidth={1} className="mb-4" />
+                                        <h4 className="text-lg font-bold text-gray-900 mb-1">Add Detail Photo</h4>
+                                        <p className="text-sm font-medium text-gray-400">활동의 생생한 순간을 추가 기록하세요.</p>
+                                    </div>
+                                </AdminImageManager>
+                            </div>
+                        )}
+                    </motion.div>
+                </AnimatePresence>
+
+                {/* Navigation Arrows */}
+                {totalSlides > 1 && (
+                    <>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+                            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center opacity-0 group-hover/gallery:opacity-100 transition-all hover:bg-white/40 z-10"
+                        >
+                            <ChevronLeft size={24} />
+                        </button>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center opacity-0 group-hover/gallery:opacity-100 transition-all hover:bg-white/40 z-10"
+                        >
+                            <ChevronRight size={24} />
+                        </button>
+                    </>
+                )}
+
+                {/* Progress Indicators */}
+                {totalSlides > 1 && (
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                        {Array.from({ length: totalSlides }).map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => setCurrentIndex(idx)}
+                                className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-8 bg-white' : 'w-2 bg-white/40 hover:bg-white/60'
+                                    }`}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            {/* Slide Information Badge */}
+            <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/30 backdrop-blur-md text-white text-[10px] font-black tracking-widest uppercase z-10">
+                {currentIndex + 1} / {totalSlides}
             </div>
         </div>
     );

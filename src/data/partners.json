@@ -23,8 +23,7 @@
             "에코 투어"
         ],
         "images": [
-            "/images/partners/jeju_phoenix_main.jpg",
-            "/images/partners/jeju_phoenix_island.png"
+            "/images/partners/phoenix_main.png"
         ],
         "mapUrl": "",
         "sections": [
@@ -501,8 +500,7 @@
             "프리미엄 팀빌딩"
         ],
         "images": [
-            "https://www.konjiamresort.co.kr/images/resort/intro/img_visual_01.jpg",
-            "https://www.konjiamresort.co.kr/images/resort/ski/slope/img_slope_01.jpg"
+            "https://www.konjiamresort.co.kr/images/resort/intro/img_visual_01.jpg"
         ],
         "mapUrl": "",
         "sections": [

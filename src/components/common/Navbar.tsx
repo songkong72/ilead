@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
-    const { openLogin } = useAuth();
+    const { openLogin, user, logout } = useAuth();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [hoveredMenu, setHoveredMenu] = useState<string | null>(null);
@@ -90,22 +90,37 @@ const Navbar = () => {
 
                     {/* PC Login & Signup Buttons */}
                     <div className="ml-4 flex items-center gap-2">
-                        {/* 관리자 상태 확인은 useAuth나 직접 firebase check 가능하지만 여기선 간단히 로그인 여부로 판단 */}
-                        <button
-                            onClick={openLogin}
-                            className={`px-4 py-2 rounded-full font-bold text-sm transition-all duration-300 ${textColorClass} ${linkHoverClass}`}
-                        >
-                            로그인
-                        </button>
+                        {user ? (
+                            <div className="flex items-center gap-4">
+                                <span className="text-white/80 text-sm font-medium">
+                                    <span className="text-white font-bold">{user.displayName || user.email?.split('@')[0]}</span>님 환영합니다
+                                </span>
+                                <button
+                                    onClick={logout}
+                                    className={`px-4 py-2 rounded-full font-bold text-sm transition-all duration-300 ${textColorClass} ${linkHoverClass} border border-white/20 hover:bg-white/10`}
+                                >
+                                    로그아웃
+                                </button>
+                            </div>
+                        ) : (
+                            <>
+                                <button
+                                    onClick={openLogin}
+                                    className={`px-4 py-2 rounded-full font-bold text-sm transition-all duration-300 ${textColorClass} ${linkHoverClass}`}
+                                >
+                                    로그인
+                                </button>
+                                <Link
+                                    to="/signup"
+                                    className={`px-4 py-2 rounded-full font-bold text-sm transition-all duration-300 ${textColorClass} ${linkHoverClass}`}
+                                >
+                                    회원가입
+                                </Link>
+                            </>
+                        )}
                         <Link
-                            to="/signup"
-                            className={`px-4 py-2 rounded-full font-bold text-sm transition-all duration-300 ${textColorClass} ${linkHoverClass}`}
-                        >
-                            회원가입
-                        </Link>
-                        <Link
-                            to="/admin" // 보낸 스크린샷의 대시보드 주소
-                            className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full font-black text-xs text-white transition-all backdrop-blur-sm shadow-xl"
+                            to="/admin"
+                            className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full font-black text-xs text-white transition-all backdrop-blur-sm shadow-xl ml-2"
                         >
                             관리자 페이지
                         </Link>
@@ -115,18 +130,29 @@ const Navbar = () => {
                 {/* Mobile Menu Toggle */}
                 <div className="flex items-center gap-4 lg:hidden">
                     <div className="hidden sm:flex items-center gap-1">
-                        <button
-                            onClick={openLogin}
-                            className={`px-3 py-1.5 font-bold text-xs transition-colors ${textColorClass} ${linkHoverClass}`}
-                        >
-                            로그인
-                        </button>
-                        <Link
-                            to="/signup"
-                            className={`px-4 py-1.5 font-bold text-xs transition-colors ${textColorClass} ${linkHoverClass}`}
-                        >
-                            회원가입
-                        </Link>
+                        {user ? (
+                            <button
+                                onClick={logout}
+                                className={`px-3 py-1.5 font-bold text-xs transition-colors ${textColorClass} ${linkHoverClass}`}
+                            >
+                                로그아웃
+                            </button>
+                        ) : (
+                            <>
+                                <button
+                                    onClick={openLogin}
+                                    className={`px-3 py-1.5 font-bold text-xs transition-colors ${textColorClass} ${linkHoverClass}`}
+                                >
+                                    로그인
+                                </button>
+                                <Link
+                                    to="/signup"
+                                    className={`px-4 py-1.5 font-bold text-xs transition-colors ${textColorClass} ${linkHoverClass}`}
+                                >
+                                    회원가입
+                                </Link>
+                            </>
+                        )}
                     </div>
                     <button
                         className={`z-50 p-2 transition-colors duration-300 text-white hover:text-blue-200`}

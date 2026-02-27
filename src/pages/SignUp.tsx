@@ -1,17 +1,116 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, CheckCircle2, User, Mail, Lock, Phone } from 'lucide-react';
+import { ChevronRight, CheckCircle2, User, Mail, Lock, Phone, AlertCircle, Loader2 } from 'lucide-react';
+import { auth, db } from '../firebase/config';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 const SignUp = () => {
     const navigate = useNavigate();
     const [step, setStep] = useState(1); // 1: Terms, 2: Info, 3: Success
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    // Form states
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
+        phone: ''
+    });
 
     const steps = [
         { id: 1, name: '약관 동의' },
         { id: 2, name: '정보 입력' },
         { id: 3, name: '가입 완료' }
     ];
+
+    const handleGoogleSignUp = async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            // Firestore에 사용자 정보 저장
+            await setDoc(doc(db, 'users', user.uid), {
+                uid: user.uid,
+                name: user.displayName,
+                email: user.email,
+                phone: user.phoneNumber || '',
+                createdAt: new Date().toISOString(),
+                provider: 'google'
+            });
+
+            setStep(3);
+        } catch (err: any) {
+            console.error('Google Sign Up Error:', err);
+
+            if (err.code === 'auth/operation-not-allowed') {
+                setError('Firebase 콘솔에서 구글 로그인(Google Provider)이 활성화되지 않았습니다.');
+            } else if (err.code === 'auth/popup-blocked') {
+                setError('브라우저에서 팝업이 차단되었습니다. 팝업 허용 후 다시 시도해 주세요.');
+            } else if (err.code === 'auth/popup-closed-by-user') {
+                setError('구글 로그인 창이 닫혔습니다.');
+            } else if (err.code === 'auth/unauthorized-domain') {
+                setError('권한이 없는 도메인입니다. Firebase 설정에서 현재 도메인을 승인해 주세요.');
+            } else {
+                setError(`구글 가입 오류: ${err.message || '다시 시도해 주세요.'}`);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleEmailSignUp = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!formData.name || !formData.email || !formData.password) {
+            setError('모든 필수 정보를 입력해 주세요.');
+            return;
+        }
+
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+            const user = userCredential.user;
+
+            // Profile 업데이트
+            await updateProfile(user, {
+                displayName: formData.name
+            });
+
+            // Firestore에 추가 정보 저장
+            await setDoc(doc(db, 'users', user.uid), {
+                uid: user.uid,
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                createdAt: new Date().toISOString(),
+                provider: 'email'
+            });
+
+            setStep(3);
+        } catch (err: any) {
+            console.error(err);
+            if (err.code === 'auth/email-already-in-use') {
+                setError('이미 사용 중인 이메일입니다.');
+            } else if (err.code === 'auth/weak-password') {
+                setError('비밀번호는 6자 이상이어야 합니다.');
+            } else {
+                setError('가입 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleNotImplemented = (provider: string) => {
+        alert(`${provider} 가입 기능은 현재 준비 중입니다. 구글이나 이메일 가입을 이용해 주세요.`);
+    };
 
     return (
         <div className="min-h-screen bg-[#fafafa] pt-32 pb-40 px-6">
@@ -92,24 +191,40 @@ const SignUp = () => {
 
                             {/* SNS Signups */}
                             <div className="space-y-3 mb-10">
-                                <button className="w-full h-14 bg-[#FEE500] text-[#000000] rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:opacity-90 transition-all">
+                                <button
+                                    onClick={() => handleNotImplemented('카카오')}
+                                    className="w-full h-14 bg-[#FEE500] text-[#000000] rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:opacity-90 transition-all"
+                                >
                                     <span className="w-5 h-5 flex items-center justify-center bg-black/10 rounded-full text-[10px]">K</span>
                                     카카오로 가입하기
                                 </button>
-                                <button className="w-full h-14 bg-[#03C75A] text-white rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:opacity-90 transition-all">
+                                <button
+                                    onClick={() => handleNotImplemented('네이버')}
+                                    className="w-full h-14 bg-[#03C75A] text-white rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:opacity-90 transition-all"
+                                >
                                     <span className="w-5 h-5 flex items-center justify-center bg-white/20 rounded-full text-[10px]">N</span>
                                     네이버로 가입하기
                                 </button>
-                                <button className="w-full h-14 bg-white text-gray-700 rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:bg-gray-50 border border-gray-200 transition-all shadow-sm">
-                                    <div className="w-5 h-5 flex items-center justify-center">
-                                        <svg viewBox="0 0 24 24" width="18" height="18">
-                                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-1 .67-2.28 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
-                                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335" />
-                                        </svg>
-                                    </div>
-                                    구글로 가입하기
+                                <button
+                                    onClick={handleGoogleSignUp}
+                                    disabled={isLoading}
+                                    className="w-full h-14 bg-white text-gray-700 rounded-xl flex items-center justify-center gap-3 font-bold text-sm hover:bg-gray-50 border border-gray-200 transition-all shadow-sm disabled:opacity-50"
+                                >
+                                    {isLoading ? (
+                                        <Loader2 className="animate-spin text-gray-400" size={20} />
+                                    ) : (
+                                        <>
+                                            <div className="w-5 h-5 flex items-center justify-center">
+                                                <svg viewBox="0 0 24 24" width="18" height="18">
+                                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-1 .67-2.28 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
+                                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335" />
+                                                </svg>
+                                            </div>
+                                            구글로 가입하기
+                                        </>
+                                    )}
                                 </button>
                             </div>
 
@@ -120,33 +235,71 @@ const SignUp = () => {
                                 <div className="flex-1 h-[1px] bg-gray-100"></div>
                             </div>
 
-                            <form className="space-y-6 mb-12" onSubmit={(e) => e.preventDefault()}>
+                            {error && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="mb-8 p-4 bg-red-50 text-red-600 rounded-xl flex items-center gap-3 text-sm font-bold"
+                                >
+                                    <AlertCircle size={18} />
+                                    {error}
+                                </motion.div>
+                            )}
+
+                            <form className="space-y-6 mb-12" onSubmit={handleEmailSignUp}>
                                 <div className="space-y-2">
                                     <span className="text-sm font-black text-gray-400 tracking-widest px-1">이름</span>
                                     <div className="relative">
                                         <User className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                                        <input type="text" placeholder="이름" className="w-full h-16 pl-14 pr-6 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all font-medium" />
+                                        <input
+                                            type="text"
+                                            required
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            placeholder="이름"
+                                            className="w-full h-16 pl-14 pr-6 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all font-medium"
+                                        />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <span className="text-sm font-black text-gray-400 tracking-widest px-1">이메일 주소</span>
                                     <div className="relative">
                                         <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                                        <input type="email" placeholder="example@email.com" className="w-full h-16 pl-14 pr-6 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all font-medium" />
+                                        <input
+                                            type="email"
+                                            required
+                                            value={formData.email}
+                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                            placeholder="example@email.com"
+                                            className="w-full h-16 pl-14 pr-6 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all font-medium"
+                                        />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <span className="text-sm font-black text-gray-400 tracking-widest px-1">비밀번호</span>
                                     <div className="relative">
                                         <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                                        <input type="password" placeholder="비밀번호 (8자 이상)" className="w-full h-16 pl-14 pr-6 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all font-medium" />
+                                        <input
+                                            type="password"
+                                            required
+                                            value={formData.password}
+                                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                            placeholder="비밀번호 (8자 이상)"
+                                            className="w-full h-16 pl-14 pr-6 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all font-medium"
+                                        />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <span className="text-sm font-black text-gray-400 tracking-widest px-1">전화번호</span>
                                     <div className="relative">
                                         <Phone className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                                        <input type="tel" placeholder="010-0000-0000" className="w-full h-16 pl-14 pr-6 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all font-medium" />
+                                        <input
+                                            type="tel"
+                                            value={formData.phone}
+                                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                            placeholder="010-0000-0000"
+                                            className="w-full h-16 pl-14 pr-6 rounded-2xl bg-gray-50 border border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all font-medium"
+                                        />
                                     </div>
                                 </div>
                             </form>
@@ -159,10 +312,11 @@ const SignUp = () => {
                                     이전으로
                                 </button>
                                 <button
-                                    onClick={() => setStep(3)}
-                                    className="flex-[2] h-16 bg-blue-600 text-white rounded-2xl font-bold text-lg hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20"
+                                    onClick={handleEmailSignUp}
+                                    disabled={isLoading}
+                                    className="flex-[2] h-16 bg-blue-600 text-white rounded-2xl font-bold text-lg hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center disabled:opacity-50"
                                 >
-                                    가입 완료
+                                    {isLoading ? <Loader2 className="animate-spin" size={24} /> : '가입 완료'}
                                 </button>
                             </div>
                         </motion.div>

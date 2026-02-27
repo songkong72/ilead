@@ -8,9 +8,10 @@ interface AdminImageManagerProps {
     isAdmin: boolean;
     uploadKey: string;
     variant?: 'replace' | 'add';
+    isDefault?: boolean;
 }
 
-const AdminImageManager: React.FC<AdminImageManagerProps> = ({ children, isAdmin, uploadKey, variant = 'replace' }) => {
+const AdminImageManager: React.FC<AdminImageManagerProps> = ({ children, isAdmin, uploadKey, variant = 'replace', isDefault = false }) => {
     const [isDragOver, setIsDragOver] = useState(false);
     const [, setDragCounter] = useState(0);
     const [isUploading, setIsUploading] = useState(false);
@@ -183,10 +184,16 @@ const AdminImageManager: React.FC<AdminImageManagerProps> = ({ children, isAdmin
             {/* 평상시 마우스 오버 상태일 때 우측 상단에 작게 표시되는 UI (교체 모드에서만 표시) */}
             {!isDragOver && !isUploading && variant === 'replace' && (
                 <div className="absolute top-3 right-3 z-[998] flex items-center gap-2 opacity-0 group-hover/admin-img:opacity-100 transition-all duration-300 transform translate-y-[-4px] group-hover/admin-img:translate-y-0">
+                    {isDefault && (
+                        <div className="bg-yellow-400 text-black text-[10px] font-black px-2 py-1 rounded-lg shadow-lg border border-yellow-500/50 flex items-center gap-1 animate-pulse">
+                            <span className="w-1.5 h-1.5 bg-black rounded-full" />
+                            기본 이미지
+                        </div>
+                    )}
                     <label className="flex items-center gap-1.5 bg-black/70 hover:bg-emerald-600 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/20 pointer-events-auto cursor-pointer shadow-xl transition-all hover:scale-105 active:scale-95 text-white">
                         <Upload size={12} />
                         <span className="text-[10px] font-black tracking-tight whitespace-nowrap">
-                            {variant === 'replace' ? '사진 교체' : '사진 추가'}
+                            사진 교체
                         </span>
                         <input
                             type="file"
@@ -201,18 +208,16 @@ const AdminImageManager: React.FC<AdminImageManagerProps> = ({ children, isAdmin
                             }}
                         />
                     </label>
-                    {variant === 'replace' && (
-                        <button
-                            onClick={handleDelete}
-                            className="p-1.5 bg-red-500/80 hover:bg-red-600 text-white rounded-lg shadow-lg transition-all hover:scale-105 active:scale-95 pointer-events-auto border border-red-400/50"
-                            title="삭제"
-                        >
-                            <Trash2 size={12} />
-                        </button>
-                    )}
+                    <button
+                        onClick={handleDelete}
+                        className="p-1.5 bg-red-500/80 hover:bg-red-600 text-white rounded-lg shadow-lg transition-all hover:scale-105 active:scale-95 pointer-events-auto border border-red-400/50"
+                        title="삭제"
+                    >
+                        <Trash2 size={12} />
+                    </button>
                 </div>
             )}
-        </div>
+        </div >
     );
 };
 

@@ -8,8 +8,17 @@ export const useImageOverrides = () => {
     const [overrides, setOverrides] = useState<Record<string, any>>({});
 
     useEffect(() => {
-        const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-            setIsAdmin(!!user);
+        // 초기 로드 시 권한 확인
+        const checkAdmin = () => {
+            const localAdmin = localStorage.getItem('is_lead_admin') === 'true';
+            setIsAdmin(localAdmin);
+        };
+
+        checkAdmin();
+
+        const unsubscribeAuth = onAuthStateChanged(auth, () => {
+            // 인증 상태가 변할 때마다(로그인/로그아웃 등) 권한 다시 확인
+            checkAdmin();
         });
 
         const unsubscribeFirestore = onSnapshot(doc(db, 'settings', 'image_overrides'), (snapshot) => {
@@ -65,6 +74,8 @@ export const useImageOverrides = () => {
     const logout = async () => {
         try {
             await signOut(auth);
+            localStorage.removeItem('is_lead_admin');
+            setIsAdmin(false);
         } catch (error) {
             console.error('Logout error:', error);
         }

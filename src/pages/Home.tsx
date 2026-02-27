@@ -13,11 +13,17 @@ import {
 import { programs } from '../data/programs';
 import { useImageOverrides } from '../hooks/useImageOverrides';
 import AdminImageManager from '../components/common/AdminImageManager';
+import AdminTextManager from '../components/common/AdminTextManager';
+import AdminToolbar from '../components/common/AdminToolbar';
 
 const Home = () => {
     const navigate = useNavigate();
     const [selectedId, setSelectedId] = useState<string | null>(null);
-    const { isAdmin, getImageUrl } = useImageOverrides();
+    const { isAdmin, overrides, getImageUrl, logout } = useImageOverrides();
+
+    const t = (defaultText: string, key: string) => {
+        return overrides[key] || defaultText;
+    };
 
     // Thematic Colors & Assets
     const heroSlides = [
@@ -116,6 +122,7 @@ const Home = () => {
 
     return (
         <div className="w-full min-h-screen bg-white flex flex-col">
+            {isAdmin && <AdminToolbar onLogout={logout} />}
             {/* Hero Slider Section with Localized Assets */}
             <section className="relative w-full h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-black">
                 <AnimatePresence initial={false}>
@@ -291,7 +298,7 @@ const Home = () => {
 
                                     {/* Bottom Area: Description & Action Link */}
                                     <div className="flex flex-col gap-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
-                                        <p className="text-gray-300 font-medium text-base md:text-lg leading-relaxed max-w-[340px] group-hover:text-white transition-colors duration-500">
+                                        <p className="text-gray-300 font-medium text-base md:text-lg leading-relaxed max-w-lg group-hover:text-white transition-colors duration-500">
                                             {item.description}
                                         </p>
                                         <div
@@ -325,13 +332,15 @@ const Home = () => {
                                 className="w-full max-w-5xl max-h-[90vh] bg-white rounded-[3rem] overflow-hidden flex flex-col md:flex-row pointer-events-auto"
                             >
                                 <div className="relative w-full md:w-2/5 h-64 md:h-full">
-                                    <motion.img
-                                        layoutId={`img-${selectedId}`}
-                                        src={selectedProgram.coverImgUrl}
-                                        alt={selectedProgram.title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r md:from-black/40 md:to-transparent" />
+                                    <AdminImageManager isAdmin={isAdmin} uploadKey={`program_${selectedId}_hero`}>
+                                        <motion.img
+                                            layoutId={`img-${selectedId}`}
+                                            src={getImageUrl(selectedProgram.coverImgUrl, `program_${selectedId}_hero`)}
+                                            alt={selectedProgram.title}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </AdminImageManager>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r md:from-black/40 md:to-transparent pointer-events-none" />
                                     <div className="absolute top-8 left-8">
                                         <motion.div
                                             layoutId={`icon-${selectedId}`}
@@ -360,7 +369,11 @@ const Home = () => {
                                             layoutId={`title-${selectedId}`}
                                             className="text-4xl font-bold text-gray-900 mb-4 tracking-tight"
                                         >
-                                            {selectedProgram.title}
+                                            <AdminTextManager
+                                                isAdmin={isAdmin}
+                                                contentKey={`program_${selectedId}_title`}
+                                                text={t(selectedProgram.title, `program_${selectedId}_title`)}
+                                            />
                                         </motion.h3>
                                         <motion.div
                                             layoutId={`theme-${selectedId}`}
@@ -369,21 +382,35 @@ const Home = () => {
                                         />
                                     </div>
 
-                                    <p className="text-xl text-gray-500 font-medium leading-relaxed mb-12">
-                                        {detailedProgramContent.intro}
-                                    </p>
+                                    <div className="text-xl text-gray-500 font-medium leading-relaxed mb-12">
+                                        <AdminTextManager
+                                            isAdmin={isAdmin}
+                                            contentKey={`program_${selectedId}_intro`}
+                                            text={t(detailedProgramContent.intro, `program_${selectedId}_intro`)}
+                                            as="p"
+                                            multiline={true}
+                                        />
+                                    </div>
 
                                     <div className="space-y-10">
-                                        {detailedProgramContent.programCategories.map((cat, i) => (
-                                            <div key={i}>
+                                        {detailedProgramContent.programCategories.map((cat, idx) => (
+                                            <div key={idx}>
                                                 <h4 className="text-sm font-black text-gray-400 uppercase tracking-[0.2em] mb-4">
-                                                    {cat.category}
+                                                    <AdminTextManager
+                                                        isAdmin={isAdmin}
+                                                        contentKey={`program_${selectedId}_cat_${idx}_name`}
+                                                        text={t(cat.category, `program_${selectedId}_cat_${idx}_name`)}
+                                                    />
                                                 </h4>
                                                 <div className="flex flex-wrap gap-3">
                                                     {cat.activities.map((activity, j) => (
                                                         <span key={j} className="px-5 py-2 bg-gray-50 text-gray-700 font-bold rounded-xl border border-gray-100 flex items-center gap-2">
                                                             <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: selectedProgram.theme }} />
-                                                            {activity.name}
+                                                            <AdminTextManager
+                                                                isAdmin={isAdmin}
+                                                                contentKey={`program_${selectedId}_cat_${idx}_act_${j}_name`}
+                                                                text={t(activity.name, `program_${selectedId}_cat_${idx}_act_${j}_name`)}
+                                                            />
                                                         </span>
                                                     ))}
                                                 </div>

@@ -35,6 +35,7 @@ const AdminLogin = () => {
         try {
             // 1. Firebase Auth 로그인 시도
             await signInWithEmailAndPassword(auth, email, trimmedPassword);
+            localStorage.setItem('is_lead_admin', 'true'); // 관리자 편집 권한 부여
             navigate('/admin/dashboard');
         } catch (err: any) {
             console.error('Login Error:', err.code);
@@ -43,6 +44,7 @@ const AdminLogin = () => {
             if (trimmedId === adminEnvId && trimmedPassword === adminEnvPw) {
                 try {
                     await createUserWithEmailAndPassword(auth, email, trimmedPassword);
+                    localStorage.setItem('is_lead_admin', 'true'); // 관리자 편집 권한 부여
                     navigate('/admin/dashboard');
                     return;
                 } catch (createErr: any) {

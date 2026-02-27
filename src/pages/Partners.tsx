@@ -82,29 +82,13 @@ const Partners = () => {
         return list;
     };
 
-    const allImages = getFullImageList();
-
     const isFacHidden = overrides[`hide_fac_${activeResort.id}`] === 'true';
     const isProgHidden = overrides[`hide_prog_${activeResort.id}`] === 'true';
     const isSidebarTotallyHidden = isFacHidden && isProgHidden;
     const shouldShowSidebarArea = isAdmin || !isSidebarTotallyHidden;
 
-    // 자동 슬라이드 (메인)
-    useEffect(() => {
-        if (!allImages || allImages.length <= 1) return;
-        const timer = setInterval(() => {
-            setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
-        }, 5000);
-        return () => clearInterval(timer);
-    }, [activeResort.id, allImages.length]);
-
-    const nextImage = () => {
-        setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
-    };
-
-    const prevImage = () => {
-        setCurrentImageIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1));
-    };
+    // 단일 이미지 체제이므로 항상 첫 번째 이미지만 사용
+    const allImages = getFullImageList().slice(0, 1);
 
     const handleTabChange = (idx: number) => {
         setActiveTab(idx);
@@ -178,6 +162,7 @@ const Partners = () => {
                             <AdminImageManager
                                 isAdmin={isAdmin}
                                 uploadKey={`partners_resort_${activeResort.id}_main_${currentImageIndex}`}
+                                isDefault={!overrides[`partners_resort_${activeResort.id}_main_${currentImageIndex}`]}
                             >
                                 <div className="bg-white border border-gray-200 shadow-lg rounded-[2.5rem] overflow-hidden group/main relative aspect-[21/9]">
                                     <AnimatePresence mode="wait">
@@ -200,39 +185,10 @@ const Partners = () => {
                                         )}
                                     </AnimatePresence>
 
-                                    {/* 메인 슬라이더 컨트롤 */}
-                                    {allImages.length > 1 && (
-                                        <>
-                                            <button onClick={(e) => { e.stopPropagation(); prevImage(); }} className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center backdrop-blur-md opacity-0 group-hover/main:opacity-100 transition-all">
-                                                <ChevronLeft size={24} />
-                                            </button>
-                                            <button onClick={(e) => { e.stopPropagation(); nextImage(); }} className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center backdrop-blur-md opacity-0 group-hover/main:opacity-100 transition-all">
-                                                <ChevronRight size={24} />
-                                            </button>
-                                            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2">
-                                                {allImages.map((_: any, iIdx: number) => (
-                                                    <div key={iIdx} className={`h-1.5 rounded-full transition-all ${currentImageIndex === iIdx ? 'w-6 bg-white' : 'w-2 bg-white/50'}`} />
-                                                ))}
-                                            </div>
-                                        </>
-                                    )}
                                 </div>
                             </AdminImageManager>
 
-                            {/* 관리자: 이미지 추가 버튼 */}
-                            {isAdmin && (
-                                <div className="absolute -bottom-6 -right-2 z-50">
-                                    <AdminImageManager
-                                        isAdmin={isAdmin}
-                                        uploadKey={`partners_resort_${activeResort.id}_main_${allImages.length}`}
-                                    >
-                                        <button className="flex items-center gap-2 px-6 py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl font-black text-sm shadow-xl transition-all hover:scale-105 active:scale-95">
-                                            <Image size={18} />
-                                            새 이미지 추가
-                                        </button>
-                                    </AdminImageManager>
-                                </div>
-                            )}
+                            {/* 관리자: 이미지 추가 버튼 제거 (1개의 이미지만 권장하므로) */}
                         </div>
 
                         {/* 상세 정보 및 섹션들 */}
@@ -286,6 +242,7 @@ const Partners = () => {
                                                                 <AdminImageManager
                                                                     isAdmin={isAdmin}
                                                                     uploadKey={`${sectionBaseKey}_${getSectionIndex(sectionBaseKey)}`}
+                                                                    isDefault={!overrides[`${sectionBaseKey}_${getSectionIndex(sectionBaseKey)}`]}
                                                                 >
                                                                     <div className="w-full h-full relative">
                                                                         {sectionImages.length > 0 ? (
