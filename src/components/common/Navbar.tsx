@@ -72,7 +72,7 @@ const Navbar = () => {
                     </div>
                     {/* Text Logo with Premium Typography */}
                     <div className="flex flex-col">
-                        <span className={`text-2xl font-bold tracking-tighter transition-all duration-300 ${textColorClass}`}>
+                        <span className={`text-xl sm:text-2xl font-bold tracking-tighter transition-all duration-300 ${textColorClass}`}>
                             엘이에이디컨설팅(주)
                         </span>
                         <span className={`text-[10px] font-bold tracking-[0.3em] uppercase transition-all duration-300 text-white/80`}>
@@ -140,32 +140,7 @@ const Navbar = () => {
                 </nav>
 
                 {/* Mobile Menu Toggle */}
-                <div className="flex items-center gap-4 lg:hidden">
-                    <div className="hidden sm:flex items-center gap-1">
-                        {user ? (
-                            <button
-                                onClick={logout}
-                                className={`px-3 py-1.5 font-bold text-xs transition-colors ${textColorClass} ${linkHoverClass}`}
-                            >
-                                로그아웃
-                            </button>
-                        ) : (
-                            <>
-                                <button
-                                    onClick={openLogin}
-                                    className={`px-3 py-1.5 font-bold text-xs transition-colors ${textColorClass} ${linkHoverClass}`}
-                                >
-                                    로그인
-                                </button>
-                                <Link
-                                    to="/signup"
-                                    className={`px-4 py-1.5 font-bold text-xs transition-colors ${textColorClass} ${linkHoverClass}`}
-                                >
-                                    회원가입
-                                </Link>
-                            </>
-                        )}
-                    </div>
+                <div className="flex items-center lg:hidden">
                     <button
                         className={`z-50 p-2 transition-colors duration-300 text-white hover:text-blue-200`}
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -177,34 +152,85 @@ const Navbar = () => {
                 {/* Mobile Menu Overlay */}
                 <AnimatePresence>
                     {isMobileMenuOpen && (
-                        <motion.div
-                            initial={{ opacity: 0, x: '100%' }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: '100%' }}
-                            transition={{ type: 'tween', duration: 0.3 }}
-                            className={`fixed top-0 right-0 w-64 h-screen ${mobileMenuBg} shadow-2xl flex lg:hidden flex-col pt-24 px-8 gap-6 z-40`}
-                        >
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.path}
-                                    to={link.path}
-                                    className={`text-lg font-bold tracking-widest uppercase transition-colors ${location.pathname === link.path ? 'text-white border-l-4 border-white pl-4' : 'text-white/70 hover:text-white'
-                                        }`}
-                                >
-                                    {link.name}
-                                </Link>
-                            ))}
-                            {isAdmin && (
-                                <div className="mt-4 pt-6 border-t border-white/10">
+                        <>
+                            {/* Backdrop: clicking here closes the menu */}
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 lg:hidden"
+                            />
+                            <motion.div
+                                initial={{ opacity: 0, x: '100%' }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: '100%' }}
+                                transition={{ type: 'tween', duration: 0.3 }}
+                                className={`fixed top-0 right-0 w-64 h-screen ${mobileMenuBg} shadow-2xl flex lg:hidden flex-col pt-24 px-8 gap-6 z-40 overflow-y-auto`}
+                            >
+                                {navLinks.map((link) => (
                                     <Link
-                                        to="/admin"
-                                        className="flex items-center justify-center gap-2 py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl font-black text-sm text-white transition-all backdrop-blur-sm shadow-xl"
+                                        key={link.path}
+                                        to={link.path}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className={`text-lg font-bold tracking-widest uppercase transition-colors ${location.pathname === link.path ? 'text-white border-l-4 border-white pl-4' : 'text-white/70 hover:text-white'
+                                            }`}
                                     >
-                                        관리자 페이지
+                                        {link.name}
                                     </Link>
+                                ))}
+
+                                <div className="mt-4 pt-6 border-t border-white/10 flex flex-col gap-4">
+                                    {user ? (
+                                        <>
+                                            <div className="text-white/70 text-sm font-medium px-1">
+                                                <span className="text-white font-bold">{user.displayName || user.email?.split('@')[0]}</span>님 환영합니다
+                                            </div>
+                                            <button
+                                                onClick={() => {
+                                                    logout();
+                                                    setIsMobileMenuOpen(false);
+                                                }}
+                                                className="text-left text-lg font-bold text-white/70 hover:text-white transition-colors"
+                                            >
+                                                로그아웃
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <button
+                                                onClick={() => {
+                                                    openLogin();
+                                                    setIsMobileMenuOpen(false);
+                                                }}
+                                                className="text-left text-lg font-bold text-white/70 hover:text-white transition-colors"
+                                            >
+                                                로그인
+                                            </button>
+                                            <Link
+                                                to="/signup"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                className="text-lg font-bold text-white/70 hover:text-white transition-colors"
+                                            >
+                                                회원가입
+                                            </Link>
+                                        </>
+                                    )}
                                 </div>
-                            )}
-                        </motion.div>
+
+                                {isAdmin && (
+                                    <div className="mt-4 pt-6 border-t border-white/10">
+                                        <Link
+                                            to="/admin"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="flex items-center justify-center gap-2 py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl font-black text-sm text-white transition-all backdrop-blur-sm shadow-xl"
+                                        >
+                                            관리자 페이지
+                                        </Link>
+                                    </div>
+                                )}
+                            </motion.div>
+                        </>
                     )}
                 </AnimatePresence>
             </div>

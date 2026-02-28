@@ -21,7 +21,7 @@ const About = () => {
                 <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
             </div>
 
-            <div className="relative z-10 container mx-auto px-6 py-20 md:py-32 min-h-screen">
+            <div className="relative z-10 container mx-auto px-6 pt-28 pb-20 md:py-32 min-h-screen">
                 <div className="max-w-4xl mx-auto text-center mb-24">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}

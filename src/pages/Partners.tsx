@@ -107,7 +107,7 @@ const Partners = () => {
                 <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
             </div>
 
-            <div className="relative z-10 container mx-auto px-6 py-16 md:py-32 min-h-screen">
+            <div className="relative z-10 container mx-auto px-6 pt-28 pb-20 md:py-32 min-h-screen">
                 {/* 타이틀 */}
                 <div className="mb-8 md:mb-12">
                     <AdminTextManager

@@ -45,7 +45,7 @@ const Notice = () => {
                 <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
             </div>
 
-            <div className="relative z-10 container mx-auto px-6 py-20 md:py-32 min-h-screen">
+            <div className="relative z-10 container mx-auto px-6 pt-28 pb-20 md:py-32 min-h-screen">
                 <div className="mb-12 md:mb-16">
                     <h2 className="text-4xl md:text-6xl font-black mb-4 text-white italic tracking-tighter">공지사항</h2>
                     <div className="h-1.5 w-20 bg-gradient-to-r from-emerald-500 to-transparent rounded-full mb-6" />
