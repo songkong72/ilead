@@ -2,49 +2,46 @@ import { motion } from 'framer-motion';
 import { useImageOverrides } from '../hooks/useImageOverrides';
 import AdminImageManager from '../components/common/AdminImageManager';
 import AdminTextManager from '../components/common/AdminTextManager';
-
+import AdminToolbar from '../components/common/AdminToolbar';
 
 const About = () => {
-    const { isAdmin, getImageUrl, overrides } = useImageOverrides();
+    const { isAdmin, getImageUrl, overrides, logout } = useImageOverrides();
+    const t = (defaultText: string, key: string) => overrides[key] || defaultText;
 
     return (
         <div className="relative min-h-[100dvh] bg-gray-50 pb-20">
+            {isAdmin && <AdminToolbar onLogout={logout} />}
             {/* 상단 컬러드 배경 */}
-            <div className="absolute top-0 left-0 right-0 h-[350px] md:h-[500px] z-0 bg-[#134e4a] overflow-hidden">
-                <AdminImageManager isAdmin={isAdmin} uploadKey="about_header_bg">
+            <div className="absolute top-0 left-0 right-0 h-[300px] md:h-[450px] z-0 bg-[#134e4a] overflow-hidden">
+                <AdminImageManager isAdmin={isAdmin} uploadKey="about_hero_bg">
                     <img
-                        src={getImageUrl('/assets/images/headers/about-bg.jpg', 'about_header_bg')}
-                        alt="About header background"
-                        className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay fixed"
+                        src={getImageUrl('/assets/images/headers/about-bg.jpg', 'about_hero_bg')}
+                        alt="Background"
+                        className="w-full h-full object-cover opacity-10 mix-blend-overlay fixed"
                     />
                 </AdminImageManager>
                 <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
             </div>
 
-            <div className="relative z-10 container mx-auto px-6 pt-28 pb-20 md:py-32 min-h-screen">
-                <div className="max-w-4xl mx-auto text-center mb-24">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-4xl md:text-7xl font-black mb-6 tracking-tighter text-white italic"
-                    >
-                        We are L.E.A.D
-                    </motion.h2>
-                    <div className="h-2 w-24 bg-gradient-to-r from-emerald-500 to-transparent rounded-full mx-auto mb-10" />
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="text-xl md:text-2xl text-white/90 leading-relaxed font-medium"
-                    >
+            <div className="relative z-10 container mx-auto px-6 pt-28 pb-20 md:py-32">
+                <div className="mb-12 md:mb-16">
+                    <h2 className="text-4xl md:text-6xl font-black mb-4 text-white italic tracking-tighter">
                         <AdminTextManager
                             isAdmin={isAdmin}
-                            contentKey="about_main_description"
-                            text={overrides.about_main_description || "수많은 기업과 단체, 그리고 교육 현장의 목소리에 귀를 기울이며, \n차별화된 콘텐츠와 열정으로 새로운 가치의 레저 문화와 인재 양성을 선도하는 전문 컨설팅 그룹입니다."}
+                            contentKey="about_hero_title"
+                            text={t("LEAD CONSULTING", "about_hero_title")}
+                        />
+                    </h2>
+                    <div className="h-1.5 w-20 bg-gradient-to-r from-emerald-500 to-transparent rounded-full mb-6" />
+                    <div className="text-white/90 text-lg md:text-xl leading-relaxed font-medium">
+                        <AdminTextManager
+                            isAdmin={isAdmin}
+                            contentKey="about_hero_description"
+                            text={t("교육을 통한 성장, 그리고 새로운 가치를 창출합니다.", "about_hero_description")}
                             as="p"
                             multiline={true}
                         />
-                    </motion.div>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">

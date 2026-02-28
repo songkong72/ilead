@@ -99,7 +99,7 @@ const Partners = () => {
         <div className="relative min-h-[100dvh] bg-gray-50 pb-20">
             {isAdmin && <AdminToolbar onLogout={logout} />}
             {/* 상단 컬러드 배경 */}
-            <div className="absolute top-0 left-0 right-0 h-[320px] md:h-[500px] z-0 bg-[#2eb5b9]">
+            <div className="absolute top-0 left-0 right-0 h-[300px] md:h-[450px] z-0 bg-[#134e4a] overflow-hidden">
                 <div
                     className="absolute inset-0 z-0 bg-cover bg-center bg-fixed bg-no-repeat opacity-10 mix-blend-overlay"
                     style={{ backgroundImage: `url('/assets/images/headers/partners-bg.jpg')` }}
@@ -109,21 +109,21 @@ const Partners = () => {
 
             <div className="relative z-10 container mx-auto px-6 pt-28 pb-20 md:py-32 min-h-screen">
                 {/* 타이틀 */}
-                <div className="mb-8 md:mb-12">
+                <div className="mb-12 md:mb-16">
                     <AdminTextManager
                         isAdmin={isAdmin}
                         contentKey="partners_header_title"
                         text={t("제휴 리조트", "partners_header_title")}
                         as="h2"
-                        className="text-3xl md:text-5xl font-black mb-2 md:mb-4 text-white uppercase italic tracking-tighter"
+                        className="text-4xl md:text-6xl font-black mb-4 text-white uppercase italic tracking-tighter"
                     />
-                    <p className="text-sm md:text-lg text-white/90 font-medium h-1.5 w-24 bg-white/30 rounded-full mb-2" />
+                    <div className="h-1.5 w-20 bg-gradient-to-r from-emerald-500 to-transparent rounded-full mb-6" />
                     <AdminTextManager
                         isAdmin={isAdmin}
                         contentKey="partners_header_desc"
                         text={t("L.E.A.D Consulting이 제휴한 프리미엄 시설을 소개합니다.", "partners_header_desc")}
                         as="p"
-                        className="text-white font-bold opacity-80"
+                        className="text-white/90 text-lg md:text-xl font-medium"
                     />
                 </div>
 
