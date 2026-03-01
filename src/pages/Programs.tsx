@@ -64,8 +64,8 @@ const Programs = () => {
                 <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
             </div>
 
-            <div className="relative z-10 container mx-auto px-6 pt-28 pb-20 md:py-32 min-h-screen">
-                <div className="mb-12 md:mb-16">
+            <div className="relative z-10 container mx-auto px-6 pt-24 pb-12 md:pt-32 md:pb-20">
+                <div className="mb-8 md:mb-12">
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -91,7 +91,7 @@ const Programs = () => {
                     </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12 md:mb-20">
                     {programCards.map((card, idx) => {
                         const programData = programs[card.id];
                         return (
@@ -102,7 +102,7 @@ const Programs = () => {
                                 viewport={{ once: true }}
                                 transition={{ delay: idx * 0.1, duration: 0.6 }}
                                 onClick={() => navigate(`/programs/${card.id}`)}
-                                className="group relative rounded-[2.5rem] overflow-hidden cursor-pointer h-[420px] shadow-xl hover:shadow-2xl transition-all duration-500"
+                                className="group relative rounded-[2.5rem] overflow-hidden cursor-pointer h-[380px] md:h-[420px] shadow-xl hover:shadow-2xl transition-all duration-500"
                             >
                                 {/* Background Image */}
                                 <div className="absolute inset-0">
@@ -120,13 +120,13 @@ const Programs = () => {
                                 </div>
 
                                 {/* Content */}
-                                <div className="relative z-10 h-full flex flex-col justify-between p-10">
+                                <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-10">
                                     <div className="flex items-center justify-between">
                                         <div
-                                            className="p-4 rounded-2xl border border-white/20 text-white backdrop-blur-md"
+                                            className="p-3 md:p-4 rounded-2xl border border-white/20 text-white backdrop-blur-md"
                                             style={{ backgroundColor: `${card.theme}33` }}
                                         >
-                                            <card.icon size={28} strokeWidth={1.5} />
+                                            <card.icon size={24} className="md:w-7 md:h-7" strokeWidth={1.5} />
                                         </div>
                                         <span className="text-white/30 font-bold tracking-widest text-xs">
                                             P.0{idx + 1}
@@ -134,30 +134,30 @@ const Programs = () => {
                                     </div>
 
                                     <div>
-                                        <h3 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
+                                        <h3 className="text-2xl md:text-4xl font-bold text-white mb-2 md:mb-3 tracking-tight">
                                             {card.title}
                                         </h3>
                                         <div
-                                            className="w-12 h-1 rounded-full mb-5 transition-all duration-500 group-hover:w-24"
+                                            className="w-10 md:w-12 h-1 rounded-full mb-4 md:mb-5 transition-all duration-500 group-hover:w-24"
                                             style={{ backgroundColor: card.theme }}
                                         />
-                                        <p className="text-white/70 text-sm font-medium leading-relaxed mb-6 max-w-sm">
+                                        <p className="text-white/70 text-xs md:text-sm font-medium leading-relaxed mb-4 md:mb-6 max-w-sm">
                                             {programData?.intro}
                                         </p>
 
                                         {/* Summary Tags */}
-                                        <div className="flex flex-wrap gap-2 mb-6">
+                                        <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                                             {programData?.summary.map((tag, i) => (
                                                 <span
                                                     key={i}
-                                                    className="px-3 py-1 bg-white/10 backdrop-blur-sm text-white/80 text-xs font-bold rounded-full border border-white/10"
+                                                    className="px-2 md:px-3 py-1 bg-white/10 backdrop-blur-sm text-white/80 text-[10px] md:text-xs font-bold rounded-full border border-white/10"
                                                 >
                                                     {tag}
                                                 </span>
                                             ))}
                                         </div>
 
-                                        <div className="flex items-center gap-2 text-white font-bold text-sm tracking-wider uppercase opacity-60 group-hover:opacity-100 transition-all group-hover:translate-x-2 duration-500">
+                                        <div className="flex items-center gap-2 text-white font-bold text-xs md:text-sm tracking-wider uppercase opacity-60 group-hover:opacity-100 transition-all group-hover:translate-x-2 duration-500">
                                             <span>상세 보기</span>
                                             <ArrowRight size={16} strokeWidth={3} />
                                         </div>
@@ -169,22 +169,25 @@ const Programs = () => {
                 </div>
 
                 {/* Bottom CTA */}
-                <div className="py-20 bg-white/5 backdrop-blur-sm rounded-[3rem] border border-white/10 text-center px-6">
+                <div className="py-12 md:py-16 bg-gradient-to-br from-[#134e4a] to-[#0f3a37] rounded-[2.5rem] md:rounded-[3rem] text-center px-6 relative overflow-hidden shadow-2xl border border-white/5 mx-auto max-w-5xl">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[100px]" />
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-500/10 blur-[100px]" />
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
+                        className="relative z-10"
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                        <h2 className="text-2xl md:text-4xl font-black text-white mb-4 md:mb-6 tracking-tight">
                             맞춤형 프로그램이 필요하신가요?
                         </h2>
-                        <p className="text-white/60 text-lg mb-10 max-w-xl mx-auto font-medium">
-                            단체의 특성과 목적에 맞는 프로그램을 직접 설계해드립니다.
+                        <p className="text-white/70 text-base md:text-xl mb-8 md:mb-10 max-w-xl mx-auto font-medium leading-relaxed">
+                            단체의 특성과 목적에 맞는 프로그램을 직접 설계해드립니다.<br />
                             지금 바로 상담을 시작하세요.
                         </p>
                         <a
                             href="tel:02-875-3056"
-                            className="inline-flex items-center gap-3 px-10 py-5 bg-white text-gray-900 font-black rounded-2xl text-lg hover:scale-105 transition-all shadow-xl hover:shadow-2xl active:scale-[0.98]"
+                            className="inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-white text-[#134e4a] font-black rounded-2xl text-base md:text-lg hover:scale-105 transition-all shadow-xl hover:shadow-2xl active:scale-[0.98]"
                         >
                             📞 02-875-3056 상담 문의
                         </a>
